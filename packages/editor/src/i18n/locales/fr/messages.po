@@ -27594,6 +27594,14 @@ msgstr "Actions"
 msgid "node.item.panel.delete"
 msgstr "Supprimer"
 
+# English: "Depth"
+# Source-Hash: 99ac4d03c3061f3a
+# Review: required
+#: packages/nodes/src/item/panel.tsx
+#, fuzzy
+msgid "node.item.panel.depth"
+msgstr "Profondeur"
+
 # Source-Hash: 12df69f42beb0643
 # Review: required
 # AI-Provider: claude-code
@@ -27614,15 +27622,21 @@ msgstr "Dimensions"
 msgid "node.item.panel.duplicate"
 msgstr "Dupliquer"
 
-# Source-Hash: 6e68b62d2aa611a4
+# English: "Height"
+# Source-Hash: 646ef0fbcbc58edf
 # Review: required
-# AI-Provider: claude-code
-# AI-Model: claude-opus-5-5
-# English: "Info"
 #: packages/nodes/src/item/panel.tsx
 #, fuzzy
-msgid "node.item.panel.info"
-msgstr "Info"
+msgid "node.item.panel.height"
+msgstr "Hauteur"
+
+# English: "Lock Aspect Ratio"
+# Source-Hash: dc3956e0e71aa5dc
+# Review: required
+#: packages/nodes/src/item/panel.tsx
+#, fuzzy
+msgid "node.item.panel.lockAspectRatio"
+msgstr "Verrouiller les proportions"
 
 # Source-Hash: bd02c614454fbd2b
 # Review: required
@@ -27703,6 +27717,14 @@ msgstr "échelle"
 #, fuzzy
 msgid "node.item.panel.uniformScale"
 msgstr "Échelle uniforme"
+
+# English: "Width"
+# Source-Hash: 3a0ccd6c46877a87
+# Review: required
+#: packages/nodes/src/item/panel.tsx
+#, fuzzy
+msgid "node.item.panel.width"
+msgstr "Largeur"
 
 # Source-Hash: 4b8d7e52013d1691
 # Review: required
@@ -39372,17 +39394,17 @@ msgstr "Visite : {state}"
 msgid "viewer.walkthrough.shutters"
 msgstr "Volets"
 
-# English: "Close"
 # Source-Hash: d7cf5045c01b2eb9
 # Review: required
+# English: "Close"
 #: packages/viewer/src/ui/components/walkthrough-touch-controls.tsx
 #, fuzzy
 msgid "viewer.walkthroughTouch.close"
 msgstr "Fermer"
 
-# English: "Crouch"
 # Source-Hash: f6bb8786828d83ab
 # Review: required
+# English: "Crouch"
 #: packages/viewer/src/ui/components/walkthrough-touch-controls.tsx
 #, fuzzy
 msgid "viewer.walkthroughTouch.crouch"
