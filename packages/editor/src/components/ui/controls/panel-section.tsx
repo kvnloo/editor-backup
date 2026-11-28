@@ -22,25 +22,23 @@ export function PanelSection({
 
   return (
     <motion.div
-      className={cn('flex shrink-0 flex-col overflow-hidden border-border/50 border-b', className)}
+      className={cn('flex shrink-0 flex-col overflow-hidden border-border border-b', className)}
       layout
       transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
     >
       <motion.button
         className={cn(
-          'group/section flex h-10 shrink-0 items-center justify-between px-3 transition-all duration-200',
-          isExpanded
-            ? 'bg-accent/50 text-foreground'
-            : 'text-muted-foreground hover:bg-accent/30 hover:text-foreground',
+          'group/section flex h-9 shrink-0 items-center justify-between px-3 transition-colors duration-200',
+          isExpanded ? 'text-foreground' : 'text-muted-foreground hover:text-foreground',
         )}
         layout="position"
         onClick={() => setIsExpanded(!isExpanded)}
         type="button"
       >
-        <span className="truncate font-medium text-sm">{title}</span>
+        <span className="truncate font-medium text-[13px]">{title}</span>
         <ChevronDown
           className={cn(
-            'h-4 w-4 transition-transform duration-200',
+            'size-3.5 transition-transform duration-200',
             isExpanded ? 'rotate-180' : 'rotate-0',
             isExpanded ? 'text-foreground' : 'opacity-0 group-hover/section:opacity-100',
           )}

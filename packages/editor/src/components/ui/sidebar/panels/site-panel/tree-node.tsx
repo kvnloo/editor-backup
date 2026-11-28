@@ -251,14 +251,14 @@ export const TreeNodeWrapper = forwardRef<HTMLDivElement, TreeNodeWrapperProps>(
       <div data-treenode-id={nodeId} ref={ref}>
         <div
           className={cn(
-            'group/row relative flex h-8 cursor-pointer select-none items-center border-border/50 border-r border-r-transparent border-b text-sm transition-all duration-200',
+            'group/row relative flex h-7 cursor-pointer select-none items-center text-[13px] transition-all duration-200',
             isSelected
-              ? 'border-r-3 border-r-white bg-accent/50 text-foreground'
+              ? 'bg-raised text-foreground'
               : isDropTarget
                 ? 'bg-blue-500/15 text-foreground ring-1 ring-blue-500/40 ring-inset'
                 : isHovered
-                  ? 'bg-accent/30 text-foreground'
-                  : 'text-muted-foreground hover:bg-accent/30 hover:text-foreground',
+                  ? 'bg-raised/60 text-foreground'
+                  : 'text-muted-foreground hover:bg-raised/60 hover:text-foreground',
             !isVisible && 'opacity-50',
             isDraggable && 'cursor-grab active:cursor-grabbing',
           )}

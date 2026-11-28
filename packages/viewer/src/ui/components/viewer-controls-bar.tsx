@@ -23,6 +23,7 @@ import { getViewerConfig } from '../../lib/viewer-config'
 import useViewer from '../../store/use-viewer'
 import { useIsMobile } from '../hooks/use-mobile'
 import { cn } from '../lib/cn'
+import { FLOATING_ACTIVE, FLOATING_SURFACE } from '../lib/floating'
 import { sceneThemeName } from '../lib/scene-theme-name'
 import {
   DropdownMenu,
@@ -41,6 +42,12 @@ import { DaylightMenu, EdgesToggleItem, QualityMenu } from './render-settings-me
 import { SKY_DOCK_HEIGHT, SkyControl } from './sky-control'
 
 // Resolved per render from `configureViewer({ iconsBaseUrl })`: app icons, not item assets.
+/** A dock button: 28 px round, raised while on. The dock is dark-scoped. */
+const DOCK_BUTTON =
+  'size-7 rounded-full p-0 text-muted-foreground hover:bg-white/8 hover:text-foreground'
+const DOCK_ICON = 'size-[19px] object-contain transition-[opacity,filter] duration-200'
+const DOCK_ICON_IDLE = 'opacity-70 grayscale group-hover:opacity-100 group-hover:grayscale-0'
+
 const iconUrl = (name: string) => `${getViewerConfig().iconsBaseUrl}/${name}.webp`
 
 const wallModeConfig = {
@@ -88,14 +95,14 @@ function VisibilityMenu({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <ActionButton
-          className="hover:bg-white/5 hover:text-foreground"
+          className={DOCK_BUTTON}
           label={i18n._({ id: 'viewer.visibility.title', message: 'Visibility' })}
           size="icon"
           tooltipClassName="dark"
           tooltipSide="top"
           variant="ghost"
         >
-          <Eye className="h-5 w-5" />
+          <Eye className="size-4" />
         </ActionButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" className="dark min-w-44" side="top">
@@ -143,14 +150,14 @@ function DisplayMenu() {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <ActionButton
-          className="hover:bg-white/5 hover:text-foreground"
+          className={DOCK_BUTTON}
           label={i18n._({ id: 'viewer.display.title', message: 'Display settings' })}
           size="icon"
           tooltipClassName="dark"
           tooltipSide="top"
           variant="ghost"
         >
-          <SlidersHorizontal className="h-5 w-5" />
+          <SlidersHorizontal className="size-4" />
         </ActionButton>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center" className="dark min-w-56" side="top">
@@ -290,7 +297,7 @@ export const ViewerControlsBar = ({
     <>
       {textures && !isMobile ? (
         // The sky (time and weather) beside the compass in the scene's bottom-left corner.
-        <SkyControl dark height={SKY_DOCK_HEIGHT.viewer} style={{ left: 52 }} />
+        <SkyControl dark height={SKY_DOCK_HEIGHT.viewer} style={{ left: 48 }} />
       ) : null}
       <div
         className={cn(
@@ -301,7 +308,10 @@ export const ViewerControlsBar = ({
         <TooltipProvider delayDuration={0}>
           <div
             data-surface="viewer-dock"
-            className="corner-smooth pointer-events-auto flex h-12 max-w-[calc(100vw-1rem)] flex-row items-center justify-center gap-0.5 overflow-hidden rounded-2xl border border-border/40 bg-background/95 p-1 shadow-elevation-4 backdrop-blur-xl transition-colors duration-200 ease-out sm:h-14 sm:gap-1.5 sm:p-1.5"
+            className={cn(
+              'pointer-events-auto flex max-w-[calc(100vw-1rem)] flex-row items-center justify-center gap-0.5 overflow-hidden rounded-full p-[3px]',
+              FLOATING_SURFACE,
+            )}
           >
             {((canShowScans && (!glbActive || glbHasScans)) ||
               (canShowGuides && (!glbActive || glbHasGuides))) && (
@@ -310,17 +320,13 @@ export const ViewerControlsBar = ({
                   canShowGuides={canShowGuides && (!glbActive || glbHasGuides)}
                   canShowScans={canShowScans && (!glbActive || glbHasScans)}
                 />
-                <div className="mx-1 h-5 w-px bg-border/40" />
+                <div className="mx-1 h-4 w-px bg-border" />
               </>
             )}
 
             {/* Level mode */}
             <ActionButton
-              className={
-                levelMode === 'stacked'
-                  ? 'hover:bg-white/5 hover:text-amber-400'
-                  : 'bg-amber-500/20 text-amber-400'
-              }
+              className={cn(DOCK_BUTTON, levelMode !== 'stacked' && FLOATING_ACTIVE)}
               label={i18n._({
                 id: 'viewer.levels.label',
                 message: 'Levels: {mode}',
@@ -337,21 +343,17 @@ export const ViewerControlsBar = ({
               tooltipSide="top"
               variant="ghost"
             >
-              {levelMode === 'solo' && <Diamond className="h-6 w-6" />}
-              {levelMode === 'exploded' && <Layers2 className="h-6 w-6" />}
+              {levelMode === 'solo' && <Diamond className="size-[18px]" />}
+              {levelMode === 'exploded' && <Layers2 className="size-[18px]" />}
               {(levelMode === 'stacked' || levelMode === 'manual') && (
-                <Layers className="h-6 w-6" />
+                <Layers className="size-[18px]" />
               )}
             </ActionButton>
 
             {/* Wall mode — parametric only; baked GLB walls are fixed-height. */}
             {!glbActive && (
               <ActionButton
-                className={
-                  safeWallMode === 'cutaway'
-                    ? 'opacity-60 grayscale hover:bg-white/5 hover:opacity-100 hover:grayscale-0'
-                    : 'bg-white/10'
-                }
+                className={cn('group', DOCK_BUTTON, safeWallMode !== 'cutaway' && FLOATING_ACTIVE)}
                 label={i18n._({
                   id: 'viewer.walls.label',
                   message: 'Walls: {mode}',
@@ -369,7 +371,7 @@ export const ViewerControlsBar = ({
               >
                 <img
                   alt={wallModeLabel(safeWallMode, i18n)}
-                  className="h-[28px] w-[28px]"
+                  className={cn(DOCK_ICON, safeWallMode === 'cutaway' && DOCK_ICON_IDLE)}
                   height={28}
                   src={iconUrl(wallModeConfig[safeWallMode].icon)}
                   width={28}
@@ -377,19 +379,15 @@ export const ViewerControlsBar = ({
               </ActionButton>
             )}
 
-            <div className="mx-1 h-5 w-px bg-border/40" />
+            <div className="mx-1 h-4 w-px bg-border" />
 
             <DisplayMenu />
 
-            <div className="mx-1 h-5 w-px bg-border/40" />
+            <div className="mx-1 h-4 w-px bg-border" />
 
             {/* Walkthrough */}
             <ActionButton
-              className={
-                walkthroughActive
-                  ? 'bg-emerald-500/20 text-emerald-400'
-                  : 'hover:bg-white/5 hover:text-emerald-400'
-              }
+              className={cn(DOCK_BUTTON, walkthroughActive && FLOATING_ACTIVE)}
               label={i18n._({
                 id: 'viewer.walkthrough.label',
                 message: 'Walkthrough: {state}',
@@ -405,17 +403,13 @@ export const ViewerControlsBar = ({
               tooltipSide="top"
               variant="ghost"
             >
-              <Footprints className="h-6 w-6" />
+              <Footprints className="size-[18px]" />
             </ActionButton>
 
             {/* Drone — flying needs a keyboard. */}
             {onDroneToggle && !isMobile && (
               <ActionButton
-                className={
-                  droneActive
-                    ? 'bg-emerald-500/20 text-emerald-400'
-                    : 'hover:bg-white/5 hover:text-emerald-400'
-                }
+                className={cn(DOCK_BUTTON, droneActive && FLOATING_ACTIVE)}
                 label={i18n._({
                   id: 'viewer.drone.label',
                   message: 'Drone: {state}',
@@ -431,18 +425,21 @@ export const ViewerControlsBar = ({
                 tooltipSide="top"
                 variant="ghost"
               >
-                <Drone className="h-6 w-6" />
+                <Drone className="size-[18px]" />
               </ActionButton>
             )}
 
-            <div className="mx-1 h-5 w-px bg-border/40" />
+            <div className="mx-1 h-4 w-px bg-border" />
 
             {/* Follow Pascal */}
-            <FollowPascalToggle className="hidden sm:inline-flex" tooltipClassName="dark" />
+            <FollowPascalToggle
+              className={cn(DOCK_BUTTON, 'hidden sm:inline-flex')}
+              tooltipClassName="dark"
+            />
 
             {/* Camera actions */}
             <ActionButton
-              className="group hidden hover:bg-white/5 sm:inline-flex"
+              className={cn('group hidden sm:inline-flex', DOCK_BUTTON)}
               label={i18n._({ id: 'viewer.camera.orbitLeft', message: 'Orbit left' })}
               onClick={() => emitter.emit('camera-controls:orbit-ccw')}
               size="icon"
@@ -452,13 +449,13 @@ export const ViewerControlsBar = ({
             >
               <img
                 alt={i18n._({ id: 'viewer.camera.orbitLeft', message: 'Orbit left' })}
-                className="h-[28px] w-[28px] -scale-x-100 object-contain opacity-70 transition-opacity group-hover:opacity-100"
+                className={cn(DOCK_ICON, DOCK_ICON_IDLE, '-scale-x-100')}
                 src={iconUrl('rotate')}
               />
             </ActionButton>
 
             <ActionButton
-              className="group hidden hover:bg-white/5 sm:inline-flex"
+              className={cn('group hidden sm:inline-flex', DOCK_BUTTON)}
               label={i18n._({ id: 'viewer.camera.orbitRight', message: 'Orbit right' })}
               onClick={() => emitter.emit('camera-controls:orbit-cw')}
               size="icon"
@@ -468,13 +465,13 @@ export const ViewerControlsBar = ({
             >
               <img
                 alt={i18n._({ id: 'viewer.camera.orbitRight', message: 'Orbit right' })}
-                className="h-[28px] w-[28px] object-contain opacity-70 transition-opacity group-hover:opacity-100"
+                className={cn(DOCK_ICON, DOCK_ICON_IDLE)}
                 src={iconUrl('rotate')}
               />
             </ActionButton>
 
             <ActionButton
-              className="group hover:bg-white/5"
+              className={cn('group', DOCK_BUTTON)}
               label={i18n._({ id: 'viewer.camera.topView', message: 'Top view' })}
               onClick={() => emitter.emit('camera-controls:top-view')}
               size="icon"
@@ -484,7 +481,7 @@ export const ViewerControlsBar = ({
             >
               <img
                 alt={i18n._({ id: 'viewer.camera.topView', message: 'Top view' })}
-                className="h-[28px] w-[28px] object-contain opacity-70 transition-opacity group-hover:opacity-100"
+                className={cn(DOCK_ICON, DOCK_ICON_IDLE)}
                 src={iconUrl('topview')}
               />
             </ActionButton>

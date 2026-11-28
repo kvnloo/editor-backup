@@ -8,6 +8,7 @@ import useEditor from '../../../store/use-editor'
 import { usePointAsk } from '../../../store/use-point-ask'
 import { isViewVisible, VIEW_2D, VIEW_3D } from '../../../store/view-layout'
 import { ActionButton } from '@pascal-app/viewer/ui'
+import { DOCK_BUTTON, DOCK_BUTTON_ON } from './dock-styles'
 
 /**
  * Point and ask (key C): the toolbar's way into the mode where hovering names what Pascal would
@@ -25,12 +26,7 @@ export function PointAskButton({ icon }: { icon?: ReactNode }) {
   const unavailable = !active && (!sceneVisible || blockedMode)
   return (
     <ActionButton
-      className={cn(
-        'group text-muted-foreground',
-        active
-          ? 'bg-[#a99bff]/20 text-[#5d49df] dark:text-[#c9c1ff] dark:hover:text-accent-foreground'
-          : 'hover:bg-[#a99bff]/15 hover:text-[#5d49df] dark:hover:text-[#c9c1ff]',
-      )}
+      className={cn('group rounded-full', DOCK_BUTTON, active && DOCK_BUTTON_ON)}
       data-guide-target="mode-point-ask"
       disabled={unavailable}
       isActive={active}

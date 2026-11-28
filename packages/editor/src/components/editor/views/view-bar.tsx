@@ -9,6 +9,8 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  FLOATING_ACTIVE,
+  FLOATING_SURFACE,
   useIsMobile,
 } from '@pascal-app/viewer/ui'
 import {
@@ -40,14 +42,15 @@ import {
 } from './use-editor-views'
 
 const GROUP = cn(
-  'pointer-events-auto inline-flex h-8 shrink-0 items-stretch overflow-hidden rounded-[10px]',
-  'border border-border bg-background/90',
+  'pointer-events-auto inline-flex h-[34px] shrink-0 items-center gap-0.5 rounded-full p-[3px]',
+  FLOATING_SURFACE,
 )
 const SEGMENT =
-  'flex items-center justify-center gap-1.5 px-2.5 font-medium text-xs transition-colors'
-const ACTIVE = 'bg-black/6 dark:bg-white/10 text-foreground'
+  'flex h-7 items-center justify-center gap-1.5 rounded-full px-2.5 font-medium text-[12.5px] transition-colors'
+// Rich view icons are greyed until their view is on screen.
+const ACTIVE = FLOATING_ACTIVE
 const IDLE =
-  'text-muted-foreground/70 hover:bg-black/5 dark:hover:bg-white/8 hover:text-muted-foreground'
+  'text-muted-foreground hover:bg-black/5 hover:text-foreground dark:hover:bg-white/8 [&_img]:opacity-70 [&_img]:grayscale hover:[&_img]:opacity-100 hover:[&_img]:grayscale-0'
 
 /** The views of one pane: its pinned views, the one it shows, and a menu with the rest. */
 /** Built-in views are named by the editor; host and plugin views bring their own label. */
@@ -58,7 +61,16 @@ function viewLabel(view: EditorViewDescriptor, i18n: PascalI18n): string {
   return view.label
 }
 
-export function ViewTabs({ pane, className }: { pane: ViewPaneIndex; className?: string }) {
+export function ViewTabs({
+  pane,
+  className,
+  trailing,
+}: {
+  pane: ViewPaneIndex
+  className?: string
+  /** Inside the bar after the views, e.g. the split controls on the last pane. */
+  trailing?: ReactNode
+}) {
   const i18n = usePascalI18n()
   const layout = useActiveViewLayout()
   const views = useEditorViews()
@@ -96,13 +108,16 @@ export function ViewTabs({ pane, className }: { pane: ViewPaneIndex; className?:
           message: 'Pane {pane} views',
           values: { pane: pane + 1 },
         })}
-        className="flex min-w-0 overflow-x-auto [scrollbar-width:none]"
+        className="flex min-w-0 items-center gap-0.5 overflow-x-auto [scrollbar-width:none]"
         role="tablist"
         ref={tabList}
       >
         {tabs.map((view) => (
           <div
-            className={cn('group flex shrink-0 items-center', view.id === current ? ACTIVE : IDLE)}
+            className={cn(
+              'group flex shrink-0 items-center rounded-full transition-colors',
+              view.id === current ? ACTIVE : IDLE,
+            )}
             key={view.id}
           >
             <button
@@ -165,6 +180,7 @@ export function ViewTabs({ pane, className }: { pane: ViewPaneIndex; className?:
         {missing && <MissingViewTab pane={pane} viewId={current} />}
       </div>
       <MoreViewsMenu current={current} pane={pane} views={views} />
+      {trailing}
     </div>
   )
 }
@@ -188,7 +204,7 @@ function MissingViewTab({ pane, viewId }: { pane: ViewPaneIndex; viewId: string 
     known?.label ??
     i18n._({ id: 'editor.views.viewBar.unavailableView', message: 'Unavailable view' })
   return (
-    <div className="flex shrink-0 items-center bg-amber-500/12 text-amber-700 dark:text-amber-400">
+    <div className="flex shrink-0 items-center rounded-full bg-amber-500/12 text-amber-700 dark:text-amber-400">
       <button
         aria-selected
         className={cn(
@@ -290,7 +306,7 @@ export function GroundModeToggle() {
       className={GROUP}
       role="group"
     >
-      <span className="flex items-center px-2.5 text-muted-foreground text-xs">{label}</span>
+      <span className="flex items-center px-2.5 text-[12.5px] text-muted-foreground">{label}</span>
       {GROUND_MODES.map(({ mode, label, title }) => (
         <button
           aria-pressed={groundMode === mode}
@@ -307,12 +323,12 @@ export function GroundModeToggle() {
   )
 }
 
-/** Split toggle and, split, the swap — at the right end of the last pane's bar. */
+/** Split toggle and, split, the swap — ghost segments closing the last pane's bar. */
 function SplitControls() {
   const i18n = usePascalI18n()
   const split = useActiveViewLayout().split
   return (
-    <div className={GROUP}>
+    <>
       {split && (
         <button
           aria-label={i18n._({ id: 'editor.views.viewBar.swapPanes', message: 'Swap panes' })}
@@ -321,7 +337,7 @@ function SplitControls() {
           title={i18n._({ id: 'editor.views.viewBar.swapPanes', message: 'Swap panes' })}
           type="button"
         >
-          <ArrowLeftRight className="h-3 w-3" />
+          <ArrowLeftRight className="size-3.5" />
         </button>
       )}
       <button
@@ -335,10 +351,10 @@ function SplitControls() {
         }
         type="button"
       >
-        <Columns2 className="h-3 w-3" />
+        <Columns2 className="size-3.5" />
         <span>{i18n._({ id: 'editor.views.viewBar.split2', message: 'Split' })}</span>
       </button>
-    </div>
+    </>
   )
 }
 
@@ -366,11 +382,9 @@ export function ViewBarRow({ start, leading }: { start?: ReactNode; leading?: Re
             style={{ left: `${left * 100}%`, width: `${(right - left) * 100}%` }}
           >
             {pane === 0 && start}
-            <ViewTabs pane={pane} />
+            <ViewTabs pane={pane} trailing={isLast && !isMobile ? <SplitControls /> : null} />
             {isSceneView(layout.panes[pane]) && <GroundModeToggle />}
             {pane === 0 && leading}
-            <span className="flex-1" />
-            {isLast && !isMobile && <SplitControls />}
           </div>
         )
       })}

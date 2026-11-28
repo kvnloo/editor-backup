@@ -33,8 +33,8 @@ export function BuildPanelSection({
   return (
     <section className="flex flex-col" data-build-group={id}>
       <div className="mb-2 flex items-baseline justify-between gap-2 px-0.5">
-        <h3 className="font-medium text-foreground text-xs">{title}</h3>
-        {hint ? <span className="truncate text-[11px] text-muted-foreground">{hint}</span> : null}
+        <h3 className="font-medium text-[12.5px] text-foreground">{title}</h3>
+        {hint ? <span className="truncate text-[11.5px] text-dim-foreground">{hint}</span> : null}
       </div>
       {children}
     </section>
@@ -86,7 +86,7 @@ export function BuildPanelAdvancedSection({
     <section className="flex flex-col" data-build-group="advanced">
       <button
         aria-expanded={open}
-        className="-mx-1.5 flex items-center gap-2 rounded-lg px-1.5 py-1.5 text-left transition-colors hover:bg-muted/60"
+        className="-mx-1.5 flex h-7 items-center gap-2 rounded-[7px] px-1.5 text-left transition-colors hover:bg-raised"
         onClick={() => {
           const next = !open
           setOpen(next)
@@ -100,17 +100,17 @@ export function BuildPanelAdvancedSection({
             open && 'rotate-90',
           )}
         />
-        <h3 className="font-medium text-foreground text-xs">
+        <h3 className="font-medium text-[12.5px] text-foreground">
           {i18n._({ id: 'editor.buildPanel.advanced', message: 'Advanced' })}
         </h3>
         {hint ? (
-          <span className="ml-auto truncate text-[11px] text-muted-foreground">{hint}</span>
+          <span className="ml-auto truncate text-[11.5px] text-dim-foreground">{hint}</span>
         ) : null}
       </button>
       {open ? (
         <div className="flex flex-col gap-2.5 pt-1.5">
           {description ? (
-            <p className="px-0.5 text-[11px] text-muted-foreground leading-relaxed">
+            <p className="px-0.5 text-[11.5px] text-muted-foreground leading-relaxed">
               {description}
             </p>
           ) : null}
@@ -123,7 +123,7 @@ export function BuildPanelAdvancedSection({
 
 export function BuildToolGrid({ children, columns }: { children: ReactNode; columns: 3 | 4 }) {
   return (
-    <div className={cn('grid gap-1.5', columns === 3 ? 'grid-cols-3' : 'grid-cols-4')}>
+    <div className={cn('grid gap-1', columns === 3 ? 'grid-cols-3' : 'grid-cols-4')}>
       {children}
     </div>
   )
@@ -157,15 +157,12 @@ export function BuildToolTile({
     <button
       aria-pressed={active}
       className={cn(
-        'group relative flex min-w-0 flex-col items-center justify-end rounded-xl transition-all duration-200',
+        'group relative flex min-w-0 flex-col items-center justify-end rounded-[10px] transition-colors duration-200',
         // Small tiles grow to two label lines ("Spawn point"); a grid row's
         // tiles stretch together, so a row keeps one height.
         size === 'lg' ? 'h-[104px] gap-1.5 px-1.5 pt-2 pb-2.5' : 'min-h-[74px] gap-1 px-1 pt-1.5 pb-2',
-        active
-          ? tone === 'neutral'
-            ? 'bg-black/8 ring-1 ring-foreground/30 dark:bg-muted'
-            : 'bg-primary/10 ring-1 ring-primary/50'
-          : 'bg-black/4 hover:bg-black/8 dark:bg-muted/40 dark:hover:bg-muted',
+        // Graphite tiles carry no box of their own: the armed one is raised.
+        active ? 'bg-raised' : 'hover:bg-raised/60',
         className,
       )}
       type="button"
@@ -185,7 +182,7 @@ export function BuildToolTile({
       <span
         className={cn(
           'line-clamp-2 max-w-full text-center font-medium leading-tight',
-          size === 'lg' ? 'text-xs' : 'text-[11px]',
+          size === 'lg' ? 'text-[12.5px]' : 'text-[11.5px]',
           active ? 'text-foreground' : 'text-muted-foreground group-hover:text-foreground',
         )}
       >
@@ -203,7 +200,7 @@ export function BuildPanelCaption({ caption, lead }: { caption: string; lead?: s
   const markerIndex = caption.indexOf(CAPTION_LEAD_MARKER)
   const hasMarkedLead = lead && markerIndex >= 0
   return (
-    <p className="mt-2 min-h-[2lh] px-0.5 text-[11px] text-muted-foreground leading-relaxed">
+    <p className="mt-2 min-h-[2lh] px-0.5 text-[11.5px] text-muted-foreground leading-relaxed">
       {hasMarkedLead ? (
         <>
           {caption.slice(0, markerIndex)}
@@ -363,7 +360,7 @@ function BuildPanelWallKinds() {
   return (
     <div
       aria-label={i18n._({ id: 'editor.buildPanel.rooms.wallKinds.label', message: 'Wall kind' })}
-      className="mt-2 flex flex-col gap-2 rounded-xl border border-border/50 bg-black/4 p-2 dark:bg-muted/40"
+      className="mt-2 flex flex-col gap-2"
       data-build-group="wall-kinds"
       role="group"
     >
@@ -372,7 +369,7 @@ function BuildPanelWallKinds() {
         options={WALL_KINDS.map((entry) => ({ value: entry.id, label: i18n._(entry.label) }))}
         value={kind}
       />
-      <p className="px-0.5 text-[11px] text-muted-foreground leading-relaxed">
+      <p className="px-0.5 text-[11.5px] text-muted-foreground leading-relaxed">
         {wallKindHelp(kind, i18n)}
       </p>
     </div>

@@ -6,6 +6,8 @@ import useEditor from '../../../store/use-editor'
 import { visibleScene } from '../../../store/view-layout'
 import { ActionButton } from '@pascal-app/viewer/ui'
 import { FollowPascalToggle } from '@pascal-app/viewer/ui'
+import { cn } from '../../../lib/utils'
+import { DOCK_BUTTON, DOCK_ICON, DOCK_ICON_IDLE } from './dock-styles'
 
 export function CameraActions({ hideOrbit = false }: { hideOrbit?: boolean }) {
   const i18n = usePascalI18n()
@@ -26,12 +28,12 @@ export function CameraActions({ hideOrbit = false }: { hideOrbit?: boolean }) {
   }
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-0.5">
       {!hideOrbit && (
         <>
           {/* Orbit CCW */}
           <ActionButton
-            className="group hover:bg-black/4"
+            className={cn('group rounded-full', DOCK_BUTTON)}
             label={i18n._({ id: 'editor.actionMenu.cameraActions.orbitLeft', message: 'Orbit Left' })}
             onClick={orbitCCW}
             size="icon"
@@ -39,7 +41,7 @@ export function CameraActions({ hideOrbit = false }: { hideOrbit?: boolean }) {
           >
             <Image
               alt={i18n._({ id: 'editor.actionMenu.cameraActions.orbitLeft', message: 'Orbit Left' })}
-              className="h-[28px] w-[28px] -scale-x-100 object-contain opacity-70 transition-opacity group-hover:opacity-100"
+              className={cn(DOCK_ICON, DOCK_ICON_IDLE, '-scale-x-100')}
               height={28}
               src="/icons/rotate.webp"
               width={28}
@@ -48,7 +50,7 @@ export function CameraActions({ hideOrbit = false }: { hideOrbit?: boolean }) {
 
           {/* Orbit CW */}
           <ActionButton
-            className="group hover:bg-black/4"
+            className={cn('group rounded-full', DOCK_BUTTON)}
             label={i18n._({ id: 'editor.actionMenu.cameraActions.orbitRight', message: 'Orbit Right' })}
             onClick={orbitCW}
             size="icon"
@@ -56,7 +58,7 @@ export function CameraActions({ hideOrbit = false }: { hideOrbit?: boolean }) {
           >
             <Image
               alt={i18n._({ id: 'editor.actionMenu.cameraActions.orbitRight', message: 'Orbit Right' })}
-              className="h-[28px] w-[28px] object-contain opacity-70 transition-opacity group-hover:opacity-100"
+              className={cn(DOCK_ICON, DOCK_ICON_IDLE)}
               height={28}
               src="/icons/rotate.webp"
               width={28}
@@ -66,12 +68,14 @@ export function CameraActions({ hideOrbit = false }: { hideOrbit?: boolean }) {
       )}
 
       {/* Follow Pascal */}
-      {!is2dOnly && <FollowPascalToggle />}
+      {!is2dOnly && (
+        <FollowPascalToggle className={cn('rounded-full', DOCK_BUTTON)} />
+      )}
 
       {/* Top View */}
       {!is2dOnly && (
         <ActionButton
-          className="group hover:bg-black/4"
+          className={cn('group rounded-full', DOCK_BUTTON)}
           label={i18n._({ id: 'editor.actionMenu.cameraActions.topView', message: 'Top View' })}
           onClick={goToTopView}
           size="icon"
@@ -79,7 +83,7 @@ export function CameraActions({ hideOrbit = false }: { hideOrbit?: boolean }) {
         >
           <Image
             alt={i18n._({ id: 'editor.actionMenu.cameraActions.topView', message: 'Top View' })}
-            className="h-[28px] w-[28px] object-contain opacity-70 transition-opacity group-hover:opacity-100"
+            className={cn(DOCK_ICON, DOCK_ICON_IDLE)}
             height={28}
             src="/icons/topview.webp"
             width={28}

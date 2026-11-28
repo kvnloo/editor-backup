@@ -10,6 +10,7 @@ import { Fragment, type ReactNode } from 'react'
 import { cn } from './../../../lib/utils'
 import useEditor from './../../../store/use-editor'
 import { ActionButton } from '@pascal-app/viewer/ui'
+import { DOCK_BUTTON, DOCK_BUTTON_ON, DOCK_ICON, DOCK_ICON_IDLE } from './dock-styles'
 import { MeasurementControl } from './measurement-control'
 import { PointAskButton } from './point-ask-button'
 
@@ -22,8 +23,6 @@ type ControlConfig = {
   imageSrc?: string
   label: MessageDescriptor
   shortcut?: string
-  color: string
-  activeColor: string
 }
 
 // Fixed set of controls — always visible, never morphs
@@ -33,16 +32,12 @@ const controls: ControlConfig[] = [
     imageSrc: '/icons/select.webp',
     label: /* i18n */ { id: 'editor.actionMenu.controlModes.select', message: 'Select' },
     shortcut: 'V',
-    color: 'hover:bg-blue-500/20 hover:text-blue-600 dark:hover:text-blue-400',
-    activeColor: 'bg-blue-500/20 text-blue-600 dark:text-blue-400 dark:hover:text-accent-foreground',
   },
   {
     id: 'delete',
     icon: Trash2,
     label: /* i18n */ { id: 'editor.actionMenu.controlModes.delete', message: 'Delete' },
     shortcut: 'X',
-    color: 'hover:bg-red-500/20 hover:text-red-600 dark:hover:text-red-400',
-    activeColor: 'bg-red-500/20 text-red-600 dark:text-red-400 dark:hover:text-accent-foreground',
   },
 ]
 
@@ -72,10 +67,9 @@ export function ControlModes({ pointAskIcon }: { pointAskIcon?: ReactNode }) {
   }
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-0.5">
       {controls.map((c) => {
         const ModeIcon = c.icon
-        const isImageMode = Boolean(c.imageSrc)
         const isActive = getIsActive(c.id)
 
         return (
@@ -88,11 +82,10 @@ export function ControlModes({ pointAskIcon }: { pointAskIcon?: ReactNode }) {
             ) : null}
             <ActionButton
               className={cn(
-                'group text-muted-foreground',
-                !(isImageMode || isActive) && c.color,
-                !isImageMode && isActive && c.activeColor,
-                isImageMode && isActive && 'bg-black/6 hover:bg-black/6 dark:bg-white/10',
-                isImageMode && !isActive && 'hover:bg-black/4',
+                'group rounded-full',
+                DOCK_BUTTON,
+                isActive && DOCK_BUTTON_ON,
+                c.id === 'delete' && !isActive && 'hover:text-destructive',
               )}
               // A static hook for a host app that wants to point a first-run
               // tour at this button. Nothing here reads it.
@@ -107,20 +100,15 @@ export function ControlModes({ pointAskIcon }: { pointAskIcon?: ReactNode }) {
               {c.imageSrc ? (
                 <Image
                   alt={i18n._(c.label)}
-                  className={cn(
-                    'h-[28px] w-[28px] object-contain transition-[opacity,filter] duration-200',
-                    isActive
-                      ? 'opacity-100 grayscale-0'
-                      : 'opacity-60 grayscale group-hover:opacity-100 group-hover:grayscale-0',
-                  )}
+                  className={cn(DOCK_ICON, !isActive && DOCK_ICON_IDLE)}
                   height={28}
                   src={c.imageSrc}
                   width={28}
                 />
               ) : c.iconifyIcon ? (
-                <Icon color="currentColor" height={18} icon={c.iconifyIcon} width={18} />
+                <Icon color="currentColor" height={16} icon={c.iconifyIcon} width={16} />
               ) : (
-                ModeIcon && <ModeIcon className="h-5 w-5" />
+                ModeIcon && <ModeIcon className="size-4" />
               )}
             </ActionButton>
           </Fragment>

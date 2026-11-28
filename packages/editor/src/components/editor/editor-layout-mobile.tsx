@@ -234,7 +234,7 @@ export function EditorLayoutMobile({
                 <div className="flex items-center gap-2">
                   {viewBar && (
                     <div data-view-bar={0}>
-                      <ViewTabs className="shadow-elevation-4" pane={0} />
+                      <ViewTabs pane={0} />
                     </div>
                   )}
                   <div className="pointer-events-auto flex items-center gap-2">

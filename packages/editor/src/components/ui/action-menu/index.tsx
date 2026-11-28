@@ -4,7 +4,7 @@ import { useScene } from '@pascal-app/core'
 import { useViewer } from '@pascal-app/viewer'
 import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
-import { TooltipProvider } from '@pascal-app/viewer/ui'
+import { FLOATING_SURFACE, TooltipProvider } from '@pascal-app/viewer/ui'
 import { useIsMobile } from '@pascal-app/viewer/ui'
 import { useReducedMotion } from './../../../hooks/use-reduced-motion'
 import { shouldShowEditingControls } from './../../../lib/interaction/overlay-policy'
@@ -79,7 +79,8 @@ export function ActionMenu({
                 : effectivePlacement === 'top'
                   ? 'fixed top-3 left-1/2 -translate-x-1/2'
                   : 'fixed bottom-6 left-1/2 -translate-x-1/2',
-            'rounded-2xl border border-border bg-background/90 shadow-2xl backdrop-blur-md',
+            isMobile ? 'rounded-2xl' : 'rounded-full',
+            FLOATING_SURFACE,
             'transition-colors duration-200 ease-out',
             className,
           )}
@@ -94,16 +95,16 @@ export function ActionMenu({
                 <ControlModes pointAskIcon={pointAskIcon} />
               </div>
               {/* Row 2: secondary toggles (orbit + top view hidden) */}
-              <div className="flex items-center justify-center gap-1 border-border/50 border-t pt-1">
+              <div className="flex items-center justify-center gap-1 border-border border-t pt-1">
                 <SecondaryToggles />
               </div>
             </div>
           ) : (
-            <div className="flex items-center justify-center gap-1 px-2 py-1.5">
+            <div className="flex items-center justify-center gap-0.5 p-[3px]">
               <ControlModes pointAskIcon={pointAskIcon} />
-              <div className="mx-1 h-5 w-px bg-border" />
+              <div className="mx-1 h-4 w-px bg-border" />
               <SecondaryToggles />
-              <div className="mx-1 h-5 w-px bg-border" />
+              <div className="mx-1 h-4 w-px bg-border" />
               <CameraActions />
             </div>
           )}

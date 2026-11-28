@@ -335,11 +335,11 @@ function ToolColumn({
         transition: isDragging ? 'none' : 'width 150ms ease',
       }}
     >
-      <div className="flex h-11 shrink-0 items-center gap-2 border-border/50 border-b pr-1.5 pl-4">
-        <p className="min-w-0 flex-1 truncate font-medium text-sm">{tab.label}</p>
+      <div className="flex h-11 shrink-0 items-center gap-2 border-border border-b pr-1.5 pl-4">
+        <p className="min-w-0 flex-1 truncate font-semibold text-[13.5px]">{tab.label}</p>
         <button
           aria-label={closeLabel}
-          className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground"
+          className="flex size-7 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-foreground"
           onClick={() => setIsCollapsed(true)}
           title={closeLabel}
           type="button"

@@ -40,7 +40,7 @@ export function MaterialPropertiesEditor({
   return (
     <div className="space-y-3">
       <div className="space-y-2">
-        <label className="block font-medium text-muted-foreground text-xs uppercase tracking-[0.12em]">
+        <label className="block font-medium text-[11.5px] text-dim-foreground">
           Color
         </label>
         <div className="flex items-center gap-2">
@@ -88,7 +88,7 @@ export function MaterialPropertiesEditor({
       />
 
       <div className="space-y-2">
-        <label className="block font-medium text-muted-foreground text-xs uppercase tracking-[0.12em]">
+        <label className="block font-medium text-[11.5px] text-dim-foreground">
           Side
         </label>
         <select

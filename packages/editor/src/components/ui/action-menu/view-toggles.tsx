@@ -38,6 +38,7 @@ import { SliderControl } from '../controls/slider-control'
 import { Popover, PopoverContent, PopoverTrigger } from '@pascal-app/viewer/ui'
 import { Switch } from '@pascal-app/viewer/ui'
 import { ActionButton } from '@pascal-app/viewer/ui'
+import { DOCK_BUTTON, DOCK_BUTTON_ON, DOCK_CHEVRON, DOCK_ICON, DOCK_ICON_IDLE } from './dock-styles'
 import { useActionMenuPopupSide } from '@pascal-app/viewer/ui'
 import { localizedLevelName } from '@pascal-app/viewer/ui'
 
@@ -736,10 +737,9 @@ function ReferencesControl() {
       <div className="flex items-center">
         <ActionButton
           className={cn(
-            'rounded-r-none p-0',
-            anyVisible
-              ? 'bg-black/9 hover:bg-black/9 dark:bg-white/15'
-              : 'opacity-60 grayscale hover:bg-black/4 hover:opacity-100 hover:grayscale-0',
+            'group rounded-l-full rounded-r-none',
+            DOCK_BUTTON,
+            anyVisible && DOCK_BUTTON_ON,
           )}
           label={
             anyVisible
@@ -753,10 +753,10 @@ function ReferencesControl() {
           <div className="relative">
             <img
               alt={i18n._({ id: 'editor.actionMenu.viewToggles.references', message: 'References' })}
-              className="h-[28px] w-[28px] object-contain"
+              className={cn(DOCK_ICON, !anyVisible && DOCK_ICON_IDLE)}
               src="/icons/floorplan.webp"
             />
-            <span className="absolute -right-1.5 -bottom-1 min-w-[14px] rounded-full bg-black/12 dark:bg-white/20 px-[3px] text-center font-medium text-[9px] text-foreground/70 dark:text-white/70 leading-[14px]">
+            <span className="absolute -right-1.5 -bottom-1 min-w-[13px] rounded-full bg-raised px-[3px] text-center font-mono text-[9px] text-muted-foreground leading-[13px] dark:bg-selected">
               {total}
             </span>
           </div>
@@ -766,16 +766,7 @@ function ReferencesControl() {
           <button
             aria-expanded={isOpen}
             aria-label={i18n._({ id: 'editor.actionMenu.viewToggles.referenceSettings', message: 'Reference settings' })}
-            className={cn(
-              'flex h-11 w-6 items-center justify-center rounded-r-lg transition-colors',
-              anyVisible
-                ? isOpen
-                  ? 'bg-black/6 dark:bg-white/10'
-                  : 'bg-black/4 dark:bg-white/5 hover:bg-black/5 dark:hover:bg-white/8'
-                : isOpen
-                  ? 'bg-black/5 dark:bg-white/8'
-                  : 'opacity-60 hover:bg-black/4 dark:hover:bg-white/5 hover:opacity-100',
-            )}
+            className={cn(DOCK_CHEVRON, (anyVisible || isOpen) && DOCK_BUTTON_ON)}
             type="button"
           >
             <ChevronDown className={cn('h-3 w-3 transition-transform', isOpen && 'rotate-180')} />
@@ -1154,7 +1145,7 @@ function RiserControl() {
 
 export function SecondaryToggles() {
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-0.5">
       <ReferencesControl />
     </div>
   )

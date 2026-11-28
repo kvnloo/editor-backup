@@ -63,11 +63,9 @@ export const ActionButton = React.forwardRef<HTMLButtonElement, ActionButtonProp
               {children}
             </div>
             {shortcut && (
-              <div className="absolute right-1 bottom-1 rounded border border-border/40 bg-background/40 px-1 py-[2px] backdrop-blur-md">
-                <span className="block font-medium font-mono text-[9px] text-muted-foreground/70 leading-none">
-                  {shortcut}
-                </span>
-              </div>
+              <span className="absolute right-0 bottom-0 rounded-[3px] bg-background/80 px-[2px] font-medium font-mono text-[9px] text-dim-foreground leading-[10px]">
+                {shortcut}
+              </span>
             )}
           </Button>
         </TooltipTrigger>

@@ -4,6 +4,7 @@ import { usePascalI18n } from '@pascal-app/core'
 import { Box, Columns2, Map as MapIcon } from 'lucide-react'
 import type { ReactNode } from 'react'
 import { cn } from '../lib/cn'
+import { FLOATING_ACTIVE, FLOATING_SURFACE } from '../lib/floating'
 import { normalizeViewerStageModes, type ViewerStageMode } from './viewer-stage-modes'
 
 export type ViewerStageSwitcherProps = {
@@ -28,7 +29,8 @@ export function ViewerStageSwitcher({
     <div
       aria-label={i18n._({ id: 'viewer.stage.layout', message: 'Viewer layout' })}
       className={cn(
-        'dark absolute top-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-1 rounded-full border border-white/10 bg-neutral-950/82 p-1 text-white shadow-elevation-4 backdrop-blur-xl',
+        'dark absolute top-4 left-1/2 z-30 flex -translate-x-1/2 items-center gap-0.5 rounded-full p-[3px] text-foreground',
+        FLOATING_SURFACE,
         className,
       )}
       role="group"
@@ -79,10 +81,10 @@ function StageButton({
     <button
       aria-pressed={active}
       className={cn(
-        'flex h-8 items-center gap-1.5 rounded-full px-3 font-medium text-xs',
+        'flex h-7 items-center gap-1.5 rounded-full px-2.5 font-medium text-[12.5px]',
         active
-          ? 'bg-white text-neutral-950 shadow-sm'
-          : 'text-neutral-300 transition-colors hover:bg-white/10 hover:text-white',
+          ? FLOATING_ACTIVE
+          : 'text-muted-foreground transition-colors hover:bg-white/8 hover:text-foreground',
         className,
       )}
       onClick={onClick}

@@ -33,6 +33,7 @@ import {
 import { useViewerUiSounds } from '@pascal-app/viewer/sfx'
 import {
   type ActionMenuPlacement,
+  FLOATING_SURFACE,
   ParametricViewerRooms,
   SceneLoader,
   SceneLoadFailed,
@@ -643,7 +644,7 @@ function ShortcutSequence({ keys }: { keys: ShortcutKey[] }) {
     <div className="flex flex-wrap items-center gap-1">
       {keys.map((key, index) => (
         <div className="flex items-center gap-1" key={`${key.value}-${index}`}>
-          {index > 0 ? <span className="text-[10px] text-muted-foreground/70">+</span> : null}
+          {index > 0 ? <span className="text-[10px] text-dim-foreground">+</span> : null}
           <InlineShortcutKey shortcutKey={key} />
         </div>
       ))}
@@ -655,14 +656,14 @@ function CameraControlHintItem({ hint }: { hint: CameraControlHint }) {
   const i18n = usePascalI18n()
   return (
     <div className="flex min-w-0 flex-col items-center gap-1.5 px-4 text-center first:pl-0 last:pr-0">
-      <span className="font-medium text-[10px] text-muted-foreground/60 tracking-[0.03em]">
+      <span className="font-medium text-[11px] text-dim-foreground">
         {i18n._(CAMERA_HINT_ACTION_LABELS[hint.action])}
       </span>
       <div className="flex flex-wrap items-center justify-center gap-1.5">
         <ShortcutSequence keys={hint.keys} />
         {hint.alternativeKeys ? (
           <>
-            <span className="text-[10px] text-muted-foreground/40">/</span>
+            <span className="text-[10px] text-dim-foreground">/</span>
             <ShortcutSequence keys={hint.alternativeKeys} />
           </>
         ) : null}
@@ -699,10 +700,13 @@ function ViewerCanvasControlsHint({
     >
       <section
         aria-label={i18n._({ id: 'editor.cameraControlsHint', message: 'Camera controls hint' })}
-        className="pointer-events-auto flex items-start gap-3 rounded-2xl border border-border/35 bg-background/90 px-3.5 py-2.5 shadow-elevation-4 backdrop-blur-xl"
+        className={cn(
+          'pointer-events-auto flex items-start gap-3 rounded-[12px] px-3.5 py-2.5',
+          FLOATING_SURFACE,
+        )}
       >
         <div
-          className="grid min-w-0 flex-1 items-start divide-x divide-border/18"
+          className="grid min-w-0 flex-1 items-start divide-x divide-border"
           style={{ gridTemplateColumns: `repeat(${hints.length}, minmax(0, 1fr))` }}
         >
           {hints.map((hint) => (
@@ -716,7 +720,7 @@ function ViewerCanvasControlsHint({
                 id: 'editor.dismissCameraControlsHint',
                 message: 'Dismiss camera controls hint',
               })}
-              className="flex h-5 shrink-0 items-center justify-center self-center border-border/18 border-l pl-3 text-muted-foreground/70 transition-colors hover:text-foreground"
+              className="flex h-5 shrink-0 items-center justify-center self-center border-border border-l pl-3 text-dim-foreground transition-colors hover:text-foreground"
               onClick={onDismiss}
               type="button"
             >
@@ -1457,7 +1461,7 @@ const ViewerCanvas = memo(function ViewerCanvas({
                 // Beside the compass (which moves to the plan's corner when the plan is on the right).
                 <SkyControl
                   height={SKY_DOCK_HEIGHT.editor}
-                  style={{ left: planOnRight ? 12 : 52 }}
+                  style={{ left: planOnRight ? 12 : 48 }}
                 />
               ) : null}
             </div>

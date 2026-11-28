@@ -61,7 +61,12 @@ import {
   useLocale,
   usePascalI18n,
 } from '@pascal-app/core'
-import { authoredLevelName, localizedLevelName } from '@pascal-app/viewer/ui'
+import {
+  authoredLevelName,
+  FLOATING_ACTIVE,
+  FLOATING_SURFACE,
+  localizedLevelName,
+} from '@pascal-app/viewer/ui'
 import { messageWithSlot } from '../../i18n/message-slot'
 import { addStoreyBelow, addStoreyOnTop, setGroundFloor } from '../../lib/add-storey'
 import { deleteLevelWithFallbackSelection } from '../../lib/level-selection'
@@ -222,11 +227,11 @@ function LevelRow({
       ) : (
         <div
           className={cn(
-            'flex items-center rounded-lg transition-colors',
-            isDragging && 'bg-black/6 dark:bg-white/10 text-foreground shadow-lg',
+            'flex h-7 items-center rounded-[8px] transition-colors',
+            isDragging && cn(FLOATING_ACTIVE, 'shadow-lg'),
             isSelected
-              ? 'bg-black/6 dark:bg-white/10 text-foreground'
-              : 'text-muted-foreground/70 hover:bg-black/4 dark:hover:bg-white/5 hover:text-muted-foreground',
+              ? FLOATING_ACTIVE
+              : 'text-muted-foreground hover:bg-black/5 hover:text-foreground dark:hover:bg-white/8',
           )}
         >
           <button
@@ -248,7 +253,7 @@ function LevelRow({
           </button>
 
           <button
-            className="flex min-w-0 flex-1 items-center justify-start py-1.5 pr-2 pl-1 font-medium text-xs"
+            className="flex h-full min-w-0 flex-1 items-center justify-start pr-2 pl-1 font-medium text-xs"
             onClick={onSelect}
             onDoubleClick={(e) => {
               e.stopPropagation()
@@ -271,7 +276,7 @@ function LevelRow({
           <Popover>
             <PopoverTrigger asChild>
               <button
-                className="mr-0.5 shrink-0 whitespace-nowrap rounded px-1 py-0.5 font-mono text-[10px] text-muted-foreground tabular-nums transition-colors hover:bg-black/4 hover:text-foreground dark:text-muted-foreground/50 dark:hover:bg-white/5 dark:hover:text-foreground"
+                className="mr-1 shrink-0 whitespace-nowrap rounded-[5px] px-1 py-0.5 font-mono text-[10.5px] text-dim-foreground tabular-nums transition-colors hover:bg-black/5 hover:text-foreground dark:hover:bg-white/8"
                 onClick={(e) => e.stopPropagation()}
                 title={i18n._({ id: 'editor.floatingLevelSelector.levelHeight', message: 'Level height' })}
                 type="button"
@@ -498,14 +503,14 @@ function GroundLine({ ground, onSeat }: { ground: GroundLineState; onSeat: () =>
     >
       {ground.seated ? (
         <span
-          className="shrink-0 font-mono text-[10px] text-muted-foreground/70 tabular-nums"
+          className="shrink-0 font-mono text-[10.5px] text-dim-foreground tabular-nums"
           title={i18n._({ id: 'editor.floatingLevelSelector.groundLineTheLevelsUnderIt', message: 'Ground line: the levels under it are below grade' })}
         >
           {label}
         </span>
       ) : (
         <button
-          className="shrink-0 rounded-full px-1.5 font-mono text-[10px] text-amber-400 tabular-nums transition-colors hover:bg-amber-400/10"
+          className="shrink-0 rounded-full px-1.5 font-mono text-[10.5px] text-amber-400 tabular-nums transition-colors hover:bg-amber-400/10"
           onClick={onSeat}
           title={
             ground.offset > 0
@@ -551,7 +556,10 @@ function UnitFocusChip() {
 
   return (
     <div
-      className="mt-4 flex h-7 max-w-48 items-center gap-1.5 rounded-full border border-border bg-background/90 pr-1 pl-2.5 font-medium text-xs shadow-2xl backdrop-blur-md"
+      className={cn(
+        'mt-4 flex h-7 max-w-48 items-center gap-1.5 rounded-full pr-1 pl-2.5 font-medium text-xs',
+        FLOATING_SURFACE,
+      )}
       data-testid="unit-focus-chip"
     >
       <span
@@ -772,7 +780,7 @@ export function FloatingLevelSelector() {
   const sortableLevelIds = reversedLevels.map((level) => level.id)
 
   const addButtonClass =
-    'absolute left-1/2 z-10 flex h-4 w-4 -translate-x-1/2 items-center justify-center rounded-full border border-border/80 bg-white text-muted-foreground/60 shadow-md transition-colors hover:bg-neutral-100 hover:text-foreground dark:bg-neutral-800 dark:hover:bg-neutral-700'
+    'absolute left-1/2 z-10 flex h-4 w-4 -translate-x-1/2 items-center justify-center rounded-full bg-background text-dim-foreground shadow-card ring-1 ring-border transition-colors hover:text-foreground dark:bg-selected'
 
   return (
     <>
@@ -817,7 +825,7 @@ export function FloatingLevelSelector() {
             sensors={sensors}
           >
             <SortableContext items={sortableLevelIds} strategy={verticalListSortingStrategy}>
-              <div className="flex flex-col gap-0.5 rounded-xl border border-border bg-background/90 p-1 shadow-2xl backdrop-blur-md">
+              <div className={cn('flex min-w-40 flex-col gap-0.5 rounded-[12px] p-1', FLOATING_SURFACE)}>
                 {reversedLevels.map((level, i) => {
                   const isSelected = level.id === levelId
                   const sortedIndex = levels.indexOf(level)

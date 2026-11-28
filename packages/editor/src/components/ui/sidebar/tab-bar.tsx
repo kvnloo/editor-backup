@@ -53,7 +53,7 @@ export function TabBar({ tabs, activeTab, onTabChange }: TabBarProps) {
         return (
           <button
             className={cn(
-              'relative h-7 rounded-md px-3 font-medium text-sm transition-colors',
+              'relative h-7 rounded-[7px] px-3 font-medium text-[13px] transition-colors',
               isActive
                 ? 'bg-sidebar-accent text-foreground'
                 : 'text-muted-foreground hover:bg-sidebar-accent/50 hover:text-foreground',
@@ -120,7 +120,7 @@ export function SideMenu({
   return (
     <nav
       className={cn(
-        'flex h-full shrink-0 flex-col border-border/50 border-r',
+        'flex h-full shrink-0 flex-col',
         menuHidden ? 'w-12' : 'w-44',
       )}
       data-surface="icon-rail"
@@ -130,7 +130,7 @@ export function SideMenu({
           aria-controls={contentId}
           aria-expanded={!menuHidden}
           aria-label={toggleLabel}
-          className="flex size-8 items-center justify-center rounded-full text-muted-foreground transition-colors hover:bg-sidebar-accent/50 hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
+          className="flex size-7 items-center justify-center rounded-[7px] text-muted-foreground transition-colors hover:bg-sidebar-accent/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2"
           onClick={onToggle}
           title={toggleLabel}
           type="button"
@@ -144,7 +144,7 @@ export function SideMenu({
       </div>
       <div
         className={cn(
-          'min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-2 pb-2',
+          'min-h-0 flex-1 flex-col gap-2 overflow-y-auto px-2 pb-2',
           menuHidden ? 'hidden' : 'flex',
         )}
         id={contentId}
@@ -152,7 +152,7 @@ export function SideMenu({
         {groups.map((group) => (
           <div className="flex flex-col gap-0.5" key={group.section ?? ''}>
             {group.section ? (
-              <p className="px-2 pt-1 pb-1 font-medium text-[11px] text-muted-foreground/70">
+              <p className="px-2 pt-1.5 pb-1 font-medium text-[11.5px] text-dim-foreground">
                 {group.section}
               </p>
             ) : null}
@@ -163,10 +163,10 @@ export function SideMenu({
                   aria-label={tab.label}
                   aria-pressed={showActive}
                   className={cn(
-                    'group flex h-9 w-full shrink-0 items-center gap-2 rounded-xl px-1.5 transition-colors duration-200 [&_img]:transition-[opacity,filter] [&_img]:duration-200',
+                    'group flex h-7 w-full shrink-0 items-center gap-2.5 rounded-[7px] px-2 transition-colors duration-200 [&_img]:transition-[opacity,filter] [&_img]:duration-200',
                     showActive
-                      ? 'bg-sidebar-accent text-foreground shadow-sm [&_img]:opacity-100 [&_img]:grayscale-0'
-                      : 'text-muted-foreground hover:bg-sidebar-accent/50 hover:text-foreground [&_img]:opacity-60 [&_img]:grayscale hover:[&_img]:opacity-100 hover:[&_img]:grayscale-0',
+                      ? 'bg-sidebar-accent text-foreground [&_img]:opacity-100 [&_img]:grayscale-0'
+                      : 'text-muted-foreground hover:bg-sidebar-accent/60 hover:text-foreground [&_img]:opacity-70 [&_img]:grayscale hover:[&_img]:opacity-100 hover:[&_img]:grayscale-0',
                   )}
                   key={tab.id}
                   onClick={() => {
@@ -176,10 +176,10 @@ export function SideMenu({
                   onMouseEnter={() => triggerSFX('sfx:menu-hover')}
                   type="button"
                 >
-                  <span className="flex size-7 shrink-0 items-center justify-center [&_img]:max-h-7 [&_img]:max-w-7">
+                  <span className="flex size-[18px] shrink-0 items-center justify-center [&_img]:max-h-[18px] [&_img]:max-w-[18px] [&_svg]:max-h-[18px] [&_svg]:max-w-[18px]">
                     {tab.icon ?? tab.label.charAt(0)}
                   </span>
-                  <span className="truncate font-medium text-sm">{tab.label}</span>
+                  <span className="truncate font-medium text-[13px]">{tab.label}</span>
                 </button>
               )
             })}

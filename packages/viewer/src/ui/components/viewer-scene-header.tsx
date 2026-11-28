@@ -13,6 +13,7 @@ import { type ComponentType, type ReactNode, useMemo } from 'react'
 import { markPerfAction } from '../../lib/perf-actions'
 import useViewer from '../../store/use-viewer'
 import { cn } from '../lib/cn'
+import { FLOATING_ACTIVE, FLOATING_SURFACE } from '../lib/floating'
 import { localizedLevelName } from '../lib/level-name'
 import { formatRoomArea } from '../lib/room-area'
 import {
@@ -134,13 +135,18 @@ export const ViewerSceneHeader = ({
 
   return (
     <div className="dark absolute top-4 left-4 z-20 flex max-h-[calc(100%-7rem)] flex-col gap-3 text-foreground">
-      <div className="corner-smooth pointer-events-auto flex min-w-[200px] max-w-[min(28rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-2xl border border-border/40 bg-background/95 shadow-elevation-4 backdrop-blur-xl transition-colors duration-200 ease-out">
+      <div
+        className={cn(
+          'pointer-events-auto flex min-w-[200px] max-w-[min(28rem,calc(100vw-2rem))] flex-col overflow-hidden rounded-[12px]',
+          FLOATING_SURFACE,
+        )}
+      >
         {/* Project info + back */}
-        <div className="flex items-center gap-3 px-3 py-2.5">
+        <div className="flex items-center gap-2 p-1.5 pr-3">
           {onBack ? (
             <button
               aria-label={i18n._({ id: 'viewer.header.back', message: 'Back' })}
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md transition-colors hover:bg-white/10"
+              className="flex size-7 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-white/8"
               onClick={onBack}
               type="button"
             >
@@ -149,19 +155,19 @@ export const ViewerSceneHeader = ({
           ) : backHref === null ? null : (
             <Link
               aria-label={i18n._({ id: 'viewer.header.back', message: 'Back' })}
-              className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md transition-colors hover:bg-white/10"
+              className="flex size-7 shrink-0 items-center justify-center rounded-full transition-colors hover:bg-white/8"
               href={backHref}
             >
               <ArrowLeft className="h-4 w-4 text-muted-foreground" />
             </Link>
           )}
           <div className="min-w-0 flex-1">
-            <div className="truncate font-medium text-foreground text-sm">
+            <div className="truncate font-medium text-[13px] text-foreground">
               {projectName || i18n._({ id: 'viewer.header.untitled', message: 'Untitled' })}
             </div>
             {owner?.username && (
               <Link
-                className="text-muted-foreground text-xs transition-colors hover:text-foreground"
+                className="text-[11.5px] text-dim-foreground transition-colors hover:text-foreground"
                 href={`/u/${owner.username}`}
               >
                 @{owner.username}
@@ -171,13 +177,13 @@ export const ViewerSceneHeader = ({
         </div>
 
         {stats && (
-          <div className="flex items-center gap-1 border-border/40 border-t px-3 py-2">{stats}</div>
+          <div className="flex items-center gap-1 border-border border-t px-3 py-2">{stats}</div>
         )}
 
         {crumbs.length > 0 && (
           <nav
             aria-label={i18n._({ id: 'viewer.header.selection', message: 'Selection' })}
-            className="flex flex-wrap items-center gap-x-1.5 gap-y-1 border-border/40 border-t px-3 py-2 text-xs"
+            className="flex flex-wrap items-center gap-x-1.5 gap-y-1 border-border border-t px-3 py-2 text-xs"
             data-testid="viewer-breadcrumb"
           >
             {crumbs.map((crumb, index) => {
@@ -209,21 +215,26 @@ export const ViewerSceneHeader = ({
       </div>
 
       {levels.length > 0 && (
-        <div className="corner-smooth pointer-events-auto flex min-h-0 w-56 flex-col overflow-hidden rounded-2xl border border-border/40 bg-background/95 py-1 shadow-elevation-4 backdrop-blur-xl transition-colors duration-200 ease-out">
-          <span className="px-3 py-2 font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
+        <div
+          className={cn(
+            'pointer-events-auto flex min-h-0 w-56 flex-col overflow-hidden rounded-[12px] p-1',
+            FLOATING_SURFACE,
+          )}
+        >
+          <span className="px-2 pt-1 pb-1.5 font-medium text-[11.5px] text-dim-foreground">
             {i18n._({ id: 'viewer.header.levels', message: 'Levels' })}
           </span>
-          <div className="flex min-h-0 flex-col overflow-y-auto">
+          <div className="flex min-h-0 flex-col gap-0.5 overflow-y-auto">
             {levels.map((lvl) => {
               const isSelected = lvl.id === selection.levelId
               return (
                 <div key={lvl.id}>
                   <button
                     className={cn(
-                      'group/row relative flex h-8 w-full cursor-pointer select-none items-center border-border/50 border-r border-r-transparent border-b px-3 text-sm transition-all duration-200',
+                      'group/row relative flex h-7 w-full cursor-pointer select-none items-center rounded-[8px] px-2 text-[13px] transition-colors',
                       isSelected
-                        ? 'border-r-3 border-r-white bg-accent/50 text-foreground'
-                        : 'text-muted-foreground hover:bg-accent/30 hover:text-foreground',
+                        ? FLOATING_ACTIVE
+                        : 'text-muted-foreground hover:bg-white/8 hover:text-foreground',
                     )}
                     onClick={() => {
                       if (!isSelected) markPerfAction('level-switch', lvl.id)
@@ -247,12 +258,8 @@ export const ViewerSceneHeader = ({
                   </button>
                   {isSelected &&
                     sections.map((section) => (
-                      <div
-                        className="border-border/50 border-b pb-1"
-                        data-viewer-section={section.kind}
-                        key={section.kind}
-                      >
-                        <span className="block px-3 pt-2 pb-1 pl-9 font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
+                      <div className="pb-1" data-viewer-section={section.kind} key={section.kind}>
+                        <span className="block pt-2 pb-1 pl-8 font-medium text-[11.5px] text-dim-foreground">
                           {sectionTitle(section.kind, i18n)}
                         </span>
                         {section.rows.map((row) => {
@@ -263,10 +270,10 @@ export const ViewerSceneHeader = ({
                           return (
                             <button
                               className={cn(
-                                'flex h-7 w-full cursor-pointer select-none items-center gap-2 pr-3 pl-9 text-left text-sm transition-colors',
+                                'flex h-7 w-full cursor-pointer select-none items-center gap-2 rounded-[8px] pr-2 pl-8 text-left text-[13px] transition-colors',
                                 active
-                                  ? 'bg-accent/50 text-foreground'
-                                  : 'text-muted-foreground hover:bg-accent/30 hover:text-foreground',
+                                  ? FLOATING_ACTIVE
+                                  : 'text-muted-foreground hover:bg-white/8 hover:text-foreground',
                               )}
                               key={row.id}
                               onClick={() =>
@@ -281,7 +288,7 @@ export const ViewerSceneHeader = ({
                                 style={{ backgroundColor: row.color }}
                               />
                               <span className="min-w-0 flex-1 truncate">{row.label}</span>
-                              <span className="shrink-0 font-mono text-[11px] text-muted-foreground tabular-nums">
+                              <span className="shrink-0 font-mono text-[10.5px] text-dim-foreground tabular-nums">
                                 {formatRoomArea(row.areaM2, unit, locale)}
                               </span>
                             </button>

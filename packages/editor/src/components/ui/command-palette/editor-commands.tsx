@@ -295,7 +295,7 @@ export function EditorCommands() {
       {
         id: 'editor.viewer.wall-mode',
         label: 'Wall Mode',
-        group: 'Viewer Controls',
+        group: 'Viewer controls',
         icon: <Layers className="h-4 w-4" />,
         keywords: ['wall', 'cutaway', 'up', 'down', 'translucent', 'view'],
         badge: () => {
@@ -311,7 +311,7 @@ export function EditorCommands() {
           const mode = useViewer.getState().cameraMode
           return `Camera: Switch to ${mode === 'perspective' ? 'Orthographic' : 'Perspective'}`
         },
-        group: 'Viewer Controls',
+        group: 'Viewer controls',
         icon: <Video className="h-4 w-4" />,
         keywords: ['camera', 'ortho', 'perspective', '2d', '3d', 'view'],
         execute: () =>
@@ -323,7 +323,7 @@ export function EditorCommands() {
       {
         id: 'editor.viewer.quality-auto',
         label: i18n._({ id: 'editor.commands.qualityAuto', message: 'Quality: Auto' }),
-        group: 'Viewer Controls',
+        group: 'Viewer controls',
         icon: <Gauge className="h-4 w-4" />,
         keywords: ['quality', 'auto', 'device', 'render'],
         execute: () => run(() => useViewer.getState().setRenderQuality('auto')),
@@ -331,7 +331,7 @@ export function EditorCommands() {
       {
         id: 'editor.viewer.quality-low',
         label: i18n._({ id: 'editor.commands.qualityLow', message: 'Quality: Low' }),
-        group: 'Viewer Controls',
+        group: 'Viewer controls',
         icon: <Gauge className="h-4 w-4" />,
         keywords: ['quality', 'low', 'fast', 'performance', 'solid', 'render'],
         execute: () => run(() => useViewer.getState().setRenderQuality('low')),
@@ -339,7 +339,7 @@ export function EditorCommands() {
       {
         id: 'editor.viewer.quality-medium',
         label: i18n._({ id: 'editor.commands.qualityMedium', message: 'Quality: Medium' }),
-        group: 'Viewer Controls',
+        group: 'Viewer controls',
         icon: <Gauge className="h-4 w-4" />,
         keywords: ['quality', 'medium', 'render'],
         execute: () => run(() => useViewer.getState().setRenderQuality('medium')),
@@ -347,7 +347,7 @@ export function EditorCommands() {
       {
         id: 'editor.viewer.quality-high',
         label: i18n._({ id: 'editor.commands.qualityHigh', message: 'Quality: High' }),
-        group: 'Viewer Controls',
+        group: 'Viewer controls',
         icon: <Sparkles className="h-4 w-4" />,
         keywords: ['quality', 'high', 'rendered', 'render'],
         execute: () => run(() => useViewer.getState().setRenderQuality('high')),
@@ -355,7 +355,7 @@ export function EditorCommands() {
       {
         id: 'editor.viewer.camera-snapshot',
         label: 'Take Snapshot',
-        group: 'Viewer Controls',
+        group: 'Viewer controls',
         icon: <Camera className="h-4 w-4" />,
         keywords: ['camera', 'snapshot', 'capture', 'save', 'view', 'bookmark'],
         execute: () => {
@@ -410,7 +410,7 @@ export function EditorCommands() {
       {
         id: 'editor.export.json',
         label: 'Export Scene (JSON)',
-        group: 'Export & Share',
+        group: 'Export and share',
         icon: <FileJson className="h-4 w-4" />,
         keywords: ['export', 'download', 'json', 'save', 'data'],
         execute: () =>
@@ -432,7 +432,7 @@ export function EditorCommands() {
             {
               id: 'editor.export.glb',
               label: 'Export 3D Model (GLB)',
-              group: 'Export & Share',
+              group: 'Export and share',
               icon: <Box className="h-4 w-4" />,
               keywords: ['export', 'glb', 'gltf', '3d', 'model', 'download'],
               execute: () => run(() => exportScene()),
@@ -442,7 +442,7 @@ export function EditorCommands() {
       {
         id: 'editor.export.share-link',
         label: 'Copy Share Link',
-        group: 'Export & Share',
+        group: 'Export and share',
         icon: <Copy className="h-4 w-4" />,
         keywords: ['share', 'copy', 'url', 'link'],
         execute: () => run(() => navigator.clipboard.writeText(window.location.href)),
@@ -450,7 +450,7 @@ export function EditorCommands() {
       {
         id: 'editor.export.screenshot',
         label: 'Take Screenshot',
-        group: 'Export & Share',
+        group: 'Export and share',
         icon: <Camera className="h-4 w-4" />,
         keywords: ['screenshot', 'capture', 'image', 'photo', 'png'],
         execute: () =>

@@ -235,7 +235,7 @@ const PropertyLineSection = memo(function PropertyLineSection() {
                 <span className="w-4 shrink-0 text-right text-muted-foreground">{index + 1}</span>
                 <label className="shrink-0 text-muted-foreground">X</label>
                 <input
-                  className="w-16 rounded border border-border/50 bg-accent/50 px-1.5 py-0.5 text-foreground text-xs focus:border-primary focus:outline-none"
+                  className="w-16 rounded border border-border/50 bg-raised px-1.5 py-0.5 text-foreground text-xs focus:border-primary focus:outline-none"
                   onChange={(e) =>
                     handlePointChange(index, 0, toStoredLinear(Number.parseFloat(e.target.value) || 0))
                   }
@@ -245,7 +245,7 @@ const PropertyLineSection = memo(function PropertyLineSection() {
                 />
                 <label className="shrink-0 text-muted-foreground">Z</label>
                 <input
-                  className="w-16 rounded border border-border/50 bg-accent/50 px-1.5 py-0.5 text-foreground text-xs focus:border-primary focus:outline-none"
+                  className="w-16 rounded border border-border/50 bg-raised px-1.5 py-0.5 text-foreground text-xs focus:border-primary focus:outline-none"
                   onChange={(e) =>
                     handlePointChange(index, 1, toStoredLinear(Number.parseFloat(e.target.value) || 0))
                   }
@@ -269,7 +269,7 @@ const PropertyLineSection = memo(function PropertyLineSection() {
             ))}
           </div>
           <button
-            className="mt-1.5 flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-muted-foreground text-xs transition-colors hover:bg-accent/50 hover:text-foreground"
+            className="mt-1.5 flex cursor-pointer items-center gap-1 rounded px-2 py-1 text-muted-foreground text-xs transition-colors hover:bg-raised hover:text-foreground"
             onClick={handleAddPoint}
           >
             <Plus className="h-3 w-3" />
@@ -409,8 +409,8 @@ const ReferenceItem = memo(function ReferenceItem({
     <div className="relative flex flex-col">
       <div
         className={cn(
-          'group/ref relative flex h-8 cursor-pointer select-none items-center border-border/50 border-b pr-2 text-xs transition-colors hover:bg-accent/30',
-          selectedReferenceId === refNode.id && 'bg-accent/50 text-foreground',
+          'group/ref relative flex h-7 cursor-pointer select-none items-center pr-2 text-xs transition-colors hover:bg-raised/60',
+          selectedReferenceId === refNode.id && 'bg-raised text-foreground',
           !isVisible && 'opacity-50',
         )}
         onClick={handleSelect}
@@ -447,7 +447,7 @@ const ReferenceItem = memo(function ReferenceItem({
 
         <div
           className={cn(
-            'flex h-8 min-w-0 flex-1 cursor-pointer items-center gap-2 py-0 text-muted-foreground group-hover/ref:text-foreground',
+            'flex h-7 min-w-0 flex-1 cursor-pointer items-center gap-2 py-0 text-muted-foreground group-hover/ref:text-foreground',
             !isCapture && 'pl-[60px]',
           )}
         >
@@ -671,7 +671,7 @@ const LevelReferences = memo(function LevelReferences({
               />
 
               <button
-                className="flex h-8 w-full cursor-pointer select-none items-center gap-2 py-0 pr-2 pl-[60px] text-left text-muted-foreground text-xs transition-colors hover:bg-accent/30 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
+                className="flex h-7 w-full cursor-pointer select-none items-center gap-2 py-0 pr-2 pl-[60px] text-left text-muted-foreground text-xs transition-colors hover:bg-raised/60 hover:text-foreground disabled:cursor-not-allowed disabled:opacity-50"
                 disabled={uploading}
                 onClick={() => scanInputRef.current?.click()}
               >
@@ -712,7 +712,7 @@ const LevelReferences = memo(function LevelReferences({
       })}
 
       {uploadError && (
-        <div className="relative flex min-h-8 select-none items-center border-border/50 border-b bg-destructive/5 py-1 pr-2 pl-[60px] text-[10px] text-destructive">
+        <div className="relative flex min-h-7 select-none items-center bg-destructive/5 py-1 pr-2 pl-[60px] text-[10px] text-destructive">
           <div
             className="pointer-events-none absolute top-0 bottom-0 z-10 w-px bg-border/50"
             style={{ left: 45 }}
@@ -800,10 +800,10 @@ const LevelItem = memo(function LevelItem({
     <div className="relative flex flex-col">
       <div
         className={cn(
-          'group/level relative flex h-8 cursor-pointer select-none items-center border-border/50 border-b pr-2 transition-all duration-200',
+          'group/level relative flex h-7 cursor-pointer select-none items-center pr-2 transition-all duration-200',
           isSelected
-            ? 'bg-accent/50 text-foreground'
-            : 'text-muted-foreground hover:bg-accent/30 hover:text-foreground',
+            ? 'bg-raised text-foreground'
+            : 'text-muted-foreground hover:bg-raised/60 hover:text-foreground',
         )}
         onClick={handleSelect}
         onDoubleClick={handleDoubleClick}
@@ -821,7 +821,7 @@ const LevelItem = memo(function LevelItem({
         <div
           className={cn(
             'pointer-events-none absolute top-[10px] left-[32px] z-10 h-[12px] w-4 transition-colors duration-200',
-            isSelected ? 'bg-accent/50' : 'bg-background group-hover/level:bg-accent/30',
+            isSelected ? 'bg-raised' : 'bg-background group-hover/level:bg-raised/60',
           )}
         />
         {/* Line down to children */}
@@ -829,7 +829,7 @@ const LevelItem = memo(function LevelItem({
           <div className="pointer-events-none absolute top-[16px] bottom-0 left-[45px] z-10 w-px bg-border/50" />
         )}
 
-        <div className="relative z-20 flex h-8 items-center pr-1 pl-[28px]">
+        <div className="relative z-20 flex h-7 items-center pr-1 pl-[28px]">
           <button
             aria-expanded={isExpanded}
             aria-label={
@@ -856,7 +856,7 @@ const LevelItem = memo(function LevelItem({
           </button>
         </div>
 
-        <div className="flex h-8 min-w-0 flex-1 cursor-pointer items-center gap-2 py-0 pl-0.5 text-sm">
+        <div className="flex h-7 min-w-0 flex-1 cursor-pointer items-center gap-2 py-0 pl-0.5 text-sm">
           <img
             alt={i18n._({ id: 'editor.sidebar.panels.sitePanel.level', message: 'Level' })}
             className={cn(
@@ -1071,7 +1071,7 @@ const LevelsSection = memo(function LevelsSection({
       {/* Level buttons */}
       <div className="flex min-h-0 flex-1 flex-col">
         <button
-          className="relative flex h-8 cursor-pointer select-none items-center gap-2 border-border/50 border-b py-0 pl-0 text-muted-foreground text-sm transition-all duration-200 hover:bg-accent/30 hover:text-foreground"
+          className="relative flex h-7 cursor-pointer select-none items-center gap-2 py-0 pl-0 text-muted-foreground text-[13px] transition-all duration-200 hover:bg-raised/60 hover:text-foreground"
           onClick={handleAddLevel}
         >
           {/* Vertical tree line */}
@@ -1085,7 +1085,7 @@ const LevelsSection = memo(function LevelsSection({
           <span className="truncate">{i18n._({ id: 'editor.sidebar.panels.sitePanel.addLevel', message: 'Add level' })}</span>
         </button>
         {levels.length === 0 && (
-          <div className="relative flex h-8 select-none items-center border-border/50 border-b py-0 pr-2 pl-[38px] text-muted-foreground text-xs">
+          <div className="relative flex h-7 select-none items-center py-0 pr-2 pl-[38px] text-muted-foreground text-xs">
             {/* Vertical tree line */}
             <div className="pointer-events-none absolute top-0 bottom-1/2 left-[21px] w-px bg-border/50" />
             {/* Horizontal branch line */}
@@ -1246,12 +1246,12 @@ const ZoneItem = memo(function ZoneItem({
   return (
     <div
       className={cn(
-        'group/row relative flex h-8 cursor-pointer select-none items-center border-border/50 border-b text-sm transition-all duration-200',
+        'group/row relative flex h-7 cursor-pointer select-none items-center text-[13px] transition-all duration-200',
         isSelected
-          ? 'bg-accent/50 text-foreground'
+          ? 'bg-raised text-foreground'
           : isHovered
-            ? 'bg-accent/30 text-foreground'
-            : 'text-muted-foreground hover:bg-accent/30 hover:text-foreground',
+            ? 'bg-raised/60 text-foreground'
+            : 'text-muted-foreground hover:bg-raised/60 hover:text-foreground',
       )}
       onClick={handleClick}
       onDoubleClick={handleDoubleClick}
@@ -1647,8 +1647,8 @@ const BuildingItem = memo(function BuildingItem({
         className={cn(
           'group/building flex h-10 shrink-0 cursor-pointer items-center border-border/50 border-b pr-2 transition-all duration-200',
           isBuildingActive
-            ? 'bg-accent/50 text-foreground'
-            : 'text-muted-foreground hover:bg-accent/30 hover:text-foreground',
+            ? 'bg-raised text-foreground'
+            : 'text-muted-foreground hover:bg-raised/60 hover:text-foreground',
         )}
         onClick={handleSelect}
         onDoubleClick={handleDoubleClick}
@@ -1808,8 +1808,8 @@ export function SitePanel({ projectId, onUploadAsset, onDeleteAsset }: SitePanel
             className={cn(
               'flex shrink-0 cursor-pointer items-center justify-between border-border/50 border-b px-3 py-3 transition-colors',
               phase === 'site'
-                ? 'bg-accent/50 text-foreground'
-                : 'text-muted-foreground hover:bg-accent/30 hover:text-foreground',
+                ? 'bg-raised text-foreground'
+                : 'text-muted-foreground hover:bg-raised/60 hover:text-foreground',
             )}
             layout="position"
             onClick={() => {

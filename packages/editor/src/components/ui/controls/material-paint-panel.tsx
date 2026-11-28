@@ -71,7 +71,7 @@ function PaintModeControl() {
       // its focus ring and it would read as still chosen after paint mode ends.
       onPointerUp={(event) => (event.target as HTMLElement).closest('button')?.blur()}
     >
-      <div className="px-0.5 font-medium text-muted-foreground text-xs">
+      <div className="px-0.5 font-medium text-[11.5px] text-dim-foreground">
         {painting && mode === 'erase' ? 'Erase' : painting && mode === 'pick' ? 'Pick material' : 'Paint'}
       </div>
       <SegmentedControl
@@ -133,9 +133,9 @@ export function MaterialPaintPanel({ onCreateMaterialRequest }: MaterialPaintPan
       </div>
 
       {/* Fixed footer: scene materials, always visible, with a `+` to add one. */}
-      <div className="mt-2 shrink-0 space-y-1.5 border-border/60 border-t pt-2">
+      <div className="mt-2 shrink-0 space-y-1.5 border-border border-t pt-2">
         <div className="flex items-center justify-between">
-          <span className="font-medium text-muted-foreground text-xs uppercase tracking-[0.12em]">
+          <span className="font-medium text-[11.5px] text-dim-foreground">
             Scene materials
           </span>
           <Tooltip>

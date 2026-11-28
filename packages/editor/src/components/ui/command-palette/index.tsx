@@ -81,7 +81,7 @@ function Shortcut({ keys }: { keys: string[] }) {
     <span className="ml-auto flex shrink-0 items-center gap-0.5">
       {keys.map((k) => (
         <kbd
-          className="flex min-w-4.5 items-center justify-center rounded border border-border/60 bg-muted/60 px-1 py-0.5 text-[10px] text-muted-foreground leading-none"
+          className="flex min-w-4.5 items-center justify-center rounded-[4px] bg-raised px-[5px] py-[3px] font-medium font-mono text-[10px] text-dim-foreground leading-none"
           key={k}
         >
           {k}
@@ -115,7 +115,7 @@ function Item({
 
   return (
     <Command.Item
-      className="flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-foreground text-sm transition-colors data-[disabled=true]:cursor-not-allowed data-[selected=true]:bg-accent data-[disabled=true]:opacity-40"
+      className="flex h-7 cursor-pointer items-center gap-2 rounded-[7px] px-2 text-[13px] text-foreground transition-colors data-[disabled=true]:cursor-not-allowed data-[selected=true]:bg-accent data-[disabled=true]:opacity-40"
       disabled={disabled}
       keywords={keywords}
       onSelect={onSelect}
@@ -126,7 +126,7 @@ function Item({
       </span>
       <span className="flex-1 truncate">{resolvedLabel}</span>
       {resolvedBadge && (
-        <span className="rounded bg-muted px-1.5 py-0.5 text-[11px] text-muted-foreground">
+        <span className="rounded-full bg-raised px-1.5 py-0.5 font-mono text-[10px] text-muted-foreground">
           {resolvedBadge}
         </span>
       )}
@@ -153,7 +153,7 @@ function OptionItem({
 }) {
   return (
     <Command.Item
-      className="flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-foreground text-sm transition-colors data-[disabled=true]:cursor-not-allowed data-[selected=true]:bg-accent data-[disabled=true]:opacity-40"
+      className="flex h-7 cursor-pointer items-center gap-2 rounded-[7px] px-2 text-[13px] text-foreground transition-colors data-[disabled=true]:cursor-not-allowed data-[selected=true]:bg-accent data-[disabled=true]:opacity-40"
       disabled={disabled}
       onSelect={onSelect}
       value={label}
@@ -170,9 +170,9 @@ function OptionItem({
 // Sub-page label map
 // ---------------------------------------------------------------------------
 const PAGE_LABEL: Record<string, string> = {
-  'wall-mode': 'Wall Mode',
-  'rename-level': 'Rename Level',
-  'goto-level': 'Go to Level',
+  'wall-mode': 'Wall mode',
+  'rename-level': 'Rename level',
+  'goto-level': 'Go to level',
 }
 
 // ---------------------------------------------------------------------------
@@ -207,7 +207,7 @@ function EmptyActionItem({ action }: { action: CommandPaletteEmptyAction }) {
   // the item itself.
   return (
     <Command.Item
-      className="flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-foreground text-sm transition-colors data-[selected=true]:bg-accent"
+      className="flex h-7 cursor-pointer items-center gap-2 rounded-[7px] px-2 text-[13px] text-foreground transition-colors data-[selected=true]:bg-accent"
       forceMount
       onSelect={() => action.onSelect(search)}
       value="__empty_action__"
@@ -312,14 +312,17 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
 
   return (
     <Dialog onOpenChange={setOpen} open={open}>
-      <DialogContent className="max-w-lg gap-0 overflow-hidden p-0" showCloseButton={false}>
+      <DialogContent
+        className="max-w-lg gap-0 overflow-hidden rounded-[12px] border-0 bg-popover p-0 shadow-popover"
+        showCloseButton={false}
+      >
         <DialogTitle className="sr-only">Command Palette</DialogTitle>
 
         {modeView && <modeView.Component onBack={onBack} onClose={onClose} />}
 
         {!modeView && (
           <Command
-            className="**:[[cmdk-group-heading]]:px-2.5 **:[[cmdk-group-heading]]:pt-3 **:[[cmdk-group-heading]]:pb-1 **:[[cmdk-group-heading]]:font-semibold **:[[cmdk-group-heading]]:text-[10px] **:[[cmdk-group-heading]]:text-muted-foreground **:[[cmdk-group-heading]]:uppercase **:[[cmdk-group-heading]]:tracking-wider"
+            className="**:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:pt-3 **:[[cmdk-group-heading]]:pb-1 **:[[cmdk-group-heading]]:font-medium **:[[cmdk-group-heading]]:text-[11.5px] **:[[cmdk-group-heading]]:text-dim-foreground"
             onKeyDown={(e) => {
               if (e.key === 'Backspace' && !inputValue && pages.length > 0) {
                 e.preventDefault()
@@ -329,11 +332,11 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
             shouldFilter={page !== 'rename-level'}
           >
             {/* Search bar */}
-            <div className="flex items-center border-border/50 border-b px-3">
-              <Search className="mr-2 h-4 w-4 shrink-0 text-muted-foreground" />
+            <div className="flex h-9 items-center border-border border-b px-3">
+              <Search className="mr-2 size-3.5 shrink-0 text-dim-foreground" />
               {page && (
                 <button
-                  className="mr-2 shrink-0 rounded bg-muted px-1.5 py-0.5 text-[11px] text-muted-foreground transition-colors hover:bg-muted/70"
+                  className="mr-2 shrink-0 rounded-full bg-raised px-2 py-0.5 text-[11.5px] text-muted-foreground transition-colors hover:text-foreground"
                   onClick={goBack}
                   type="button"
                 >
@@ -342,7 +345,7 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
               )}
               <Command.Input
                 autoFocus
-                className="flex h-12 w-full bg-transparent text-sm outline-none placeholder:text-muted-foreground"
+                className="flex h-9 w-full bg-transparent text-[13px] outline-none placeholder:text-dim-foreground"
                 onValueChange={setInputValue}
                 placeholder={
                   page === 'rename-level'
@@ -355,7 +358,7 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
               />
             </div>
 
-            <Command.List className="max-h-100 overflow-y-auto p-1.5" ref={listRef}>
+            <Command.List className="max-h-100 overflow-y-auto p-1" ref={listRef}>
               {(!emptyAction || page) && (
                 <Command.Empty className="py-8 text-center text-muted-foreground text-sm">
                   No commands found.
@@ -397,7 +400,7 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
 
               {/* ── Wall Mode sub-page ────────────────────────────────────── */}
               {page === 'wall-mode' && (
-                <Command.Group heading="Wall Mode">
+                <Command.Group heading="Wall mode">
                   {(['cutaway', 'up', 'down', 'translucent'] as const).map((mode) => (
                     <OptionItem
                       isActive={wallMode === mode}
@@ -411,7 +414,7 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
 
               {/* ── Go to Level sub-page ──────────────────────────────────── */}
               {page === 'goto-level' && (
-                <Command.Group heading="Go to Level">
+                <Command.Group heading="Go to level">
                   {allLevels.map((level) => (
                     <OptionItem
                       isActive={level.id === activeLevelId}
@@ -432,9 +435,9 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
 
               {/* ── Rename Level sub-page ─────────────────────────────────── */}
               {page === 'rename-level' && (
-                <Command.Group heading="Rename Level">
+                <Command.Group heading="Rename level">
                   <Command.Item
-                    className="flex cursor-pointer items-center gap-2.5 rounded-md px-2.5 py-2 text-foreground text-sm transition-colors data-[disabled=true]:cursor-not-allowed data-[selected=true]:bg-accent data-[disabled=true]:opacity-40"
+                    className="flex h-7 cursor-pointer items-center gap-2 rounded-[7px] px-2 text-[13px] text-foreground transition-colors data-[disabled=true]:cursor-not-allowed data-[selected=true]:bg-accent data-[disabled=true]:opacity-40"
                     disabled={!inputValue.trim()}
                     onSelect={confirmRename}
                     value="confirm-rename"
@@ -471,19 +474,19 @@ export function CommandPalette({ emptyAction }: { emptyAction?: CommandPaletteEm
             <TopOnFirstItem list={listRef} />
 
             {/* Footer hint */}
-            <div className="flex items-center justify-between border-border/50 border-t px-3 py-2">
-              <span className="text-[11px] text-muted-foreground">
+            <div className="flex items-center gap-4 border-border border-t px-3 py-2">
+              <span className="flex items-center gap-1.5 text-[11.5px] text-dim-foreground">
                 <Shortcut keys={['↑', '↓']} /> navigate
               </span>
-              <span className="text-[11px] text-muted-foreground">
+              <span className="flex items-center gap-1.5 text-[11.5px] text-dim-foreground">
                 <Shortcut keys={['↵']} /> select
               </span>
               {page ? (
-                <span className="text-[11px] text-muted-foreground">
+                <span className="flex items-center gap-1.5 text-[11.5px] text-dim-foreground">
                   <Shortcut keys={['⌫']} /> back
                 </span>
               ) : (
-                <span className="text-[11px] text-muted-foreground">
+                <span className="flex items-center gap-1.5 text-[11.5px] text-dim-foreground">
                   <Shortcut keys={['Esc']} /> close
                 </span>
               )}

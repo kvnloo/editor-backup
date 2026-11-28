@@ -3,6 +3,7 @@
 import { usePascalI18n } from '@pascal-app/core'
 import type React from 'react'
 import { cn } from '../lib/cn'
+import { FLOATING_SURFACE } from '../lib/floating'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../primitives/tooltip'
 import { SKY_COMPASS_BOTTOM, useSkyPanel } from './sky-control'
 
@@ -33,7 +34,8 @@ export function FloorplanCompassButton({
         <button
           aria-label={label}
           className={cn(
-            'group pointer-events-auto absolute bottom-3 z-30 flex h-8 w-8 items-center justify-center rounded-full border border-black/10 bg-white/85 shadow-sm backdrop-blur-md transition hover:bg-white hover:shadow-md dark:border-white/10 dark:bg-neutral-900/85 dark:hover:bg-neutral-900',
+            'group pointer-events-auto absolute bottom-3 z-30 flex size-7 items-center justify-center rounded-full transition',
+            FLOATING_SURFACE,
             !style && 'left-3',
           )}
           style={besideSky ? { bottom: SKY_COMPASS_BOTTOM, ...style } : style}
@@ -47,10 +49,10 @@ export function FloorplanCompassButton({
           }}
           type="button"
         >
-          <span className="relative flex h-6 w-6 items-center justify-center rounded-full bg-[#b8b8b8] shadow-inner dark:bg-neutral-700">
+          <span className="relative flex size-[22px] items-center justify-center rounded-full bg-raised dark:bg-selected">
             <svg
               aria-hidden="true"
-              className="h-6 w-6"
+              className="size-[22px]"
               ref={needleRef}
               style={{ transform: `rotate(${northRotationDeg}deg)` }}
               viewBox="0 0 48 48"

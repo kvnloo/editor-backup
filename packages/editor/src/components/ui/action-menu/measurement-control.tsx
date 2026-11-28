@@ -30,6 +30,7 @@ import useFloorplanMode from '../../../store/use-floorplan-mode'
 import { Popover, PopoverContent, PopoverTrigger } from '@pascal-app/viewer/ui'
 import { ActionButton } from '@pascal-app/viewer/ui'
 import { useActionMenuPopupSide } from '@pascal-app/viewer/ui'
+import { DOCK_BUTTON, DOCK_BUTTON_ON, DOCK_CHEVRON } from './dock-styles'
 
 const measurementOptions = [
   { kind: 'distance', label: /* i18n */ { id: 'editor.actionMenu.measurementControl.distance', message: 'Distance' }, icon: Ruler },
@@ -152,10 +153,9 @@ export function MeasurementControl() {
           aria-label={i18n._({ id: 'editor.actionMenu.measurementControl.measureSelectedlabel', message: 'Measure: {selectedLabel}', values: { selectedLabel } })}
           aria-pressed={isControlActive}
           className={cn(
-            'rounded-r-none p-0 text-muted-foreground',
-            isControlActive
-              ? 'bg-cyan-500/20 text-cyan-700 hover:bg-cyan-500/20 dark:text-cyan-400 dark:hover:text-accent-foreground'
-              : 'hover:bg-cyan-500/15 hover:text-cyan-700 dark:hover:text-cyan-400',
+            'rounded-l-full rounded-r-none',
+            DOCK_BUTTON,
+            isControlActive && DOCK_BUTTON_ON,
           )}
           label={i18n._({ id: 'editor.actionMenu.measurementControl.measureSelectedlabel', message: 'Measure: {selectedLabel}', values: { selectedLabel } })}
           onClick={handlePrimaryClick}
@@ -163,7 +163,7 @@ export function MeasurementControl() {
           size="icon"
           variant="ghost"
         >
-          <SelectedIcon aria-hidden="true" className="h-5 w-5" />
+          <SelectedIcon aria-hidden="true" className="size-4" />
         </ActionButton>
 
         <PopoverTrigger asChild>
@@ -171,12 +171,7 @@ export function MeasurementControl() {
             aria-expanded={isOpen}
             aria-haspopup="menu"
             aria-label={i18n._({ id: 'editor.actionMenu.measurementControl.measurementOptions', message: 'Measurement options' })}
-            className={cn(
-              'flex h-11 w-6 items-center justify-center rounded-r-lg text-muted-foreground transition-colors',
-              isOpen
-                ? 'bg-cyan-500/15 text-cyan-700 dark:text-cyan-400'
-                : 'hover:bg-cyan-500/10 hover:text-cyan-700 dark:hover:text-cyan-400',
-            )}
+            className={cn(DOCK_CHEVRON, (isOpen || isControlActive) && DOCK_BUTTON_ON)}
             type="button"
           >
             <ChevronDown

@@ -39,6 +39,7 @@ import { cancelTimeTransition, transitionTimeOfDay } from '../../lib/daylight/ti
 import { useDaylightSite } from '../../lib/daylight/use-daylight-site'
 import useViewer from '../../store/use-viewer'
 import { cn } from '../lib/cn'
+import { FLOATING_SURFACE } from '../lib/floating'
 import { Popover, PopoverAnchor, PopoverContent } from '../primitives/popover'
 import { Switch } from '../primitives/switch'
 
@@ -61,8 +62,8 @@ export function openSkyPanel() {
  * controls bar, both 24 px up. The compass beside the chip centres on them.
  */
 export const SKY_DOCK_BOTTOM = 24
-export const SKY_DOCK_HEIGHT = { editor: 58, viewer: 56 } as const
-export const SKY_COMPASS_BOTTOM = 36
+export const SKY_DOCK_HEIGHT = { editor: 34, viewer: 34 } as const
+export const SKY_COMPASS_BOTTOM = 27
 
 const PRESETS: readonly { id: TimeOfDay; icon: typeof Sun }[] = [
   { id: 'dawn', icon: Sunrise },
@@ -236,7 +237,8 @@ export function SkyControl({
       <PopoverAnchor asChild>
         <div
           className={cn(
-            'corner-smooth pointer-events-auto absolute z-30 flex items-stretch gap-0.5 rounded-2xl border border-border/40 bg-background/95 p-1 text-foreground text-xs shadow-elevation-4 backdrop-blur-xl',
+            'pointer-events-auto absolute z-30 flex items-stretch gap-0.5 rounded-full p-[3px] text-foreground text-xs',
+            FLOATING_SURFACE,
             dark && 'dark',
             className,
           )}
@@ -248,21 +250,23 @@ export function SkyControl({
             aria-expanded={open}
             aria-label={i18n._({ id: 'viewer.daylight.sky.open', message: 'Time and weather' })}
             className={cn(
-              'flex items-center gap-2 rounded-xl pr-3 pl-1.5 transition-colors',
+              'flex items-center gap-2 rounded-full pr-3 pl-[3px] transition-colors',
               open ? 'bg-violet-500/10' : 'hover:bg-accent',
             )}
             onClick={() => useSkyPanel.setState({ open: !open })}
             type="button"
           >
             <MiniSky sky={sky} />
-            <span className="font-mono text-foreground text-sm tabular-nums">
+            <span className="font-mono text-[12.5px] text-foreground tabular-nums">
               {formatMinutes(sky.clock)}
             </span>
             {compact ? null : (
-              <span className="text-muted-foreground text-sm">{phaseName(i18n, sky.phase)}</span>
+              <span className="text-[12.5px] text-muted-foreground">
+                {phaseName(i18n, sky.phase)}
+              </span>
             )}
           </button>
-          <span aria-hidden="true" className="mx-0.5 my-auto h-6 w-px bg-border" />
+          <span aria-hidden="true" className="mx-0.5 my-auto h-4 w-px bg-border" />
           <button
             aria-label={i18n._({
               id: 'viewer.daylight.sky.cycleWeather',
@@ -272,7 +276,7 @@ export function SkyControl({
                 next: weatherName(i18n, nextWeather.id),
               },
             })}
-            className="flex items-center gap-1.5 rounded-xl px-2.5 text-sm transition-colors hover:bg-accent"
+            className="flex items-center gap-1.5 rounded-full px-2.5 text-[12.5px] transition-colors hover:bg-accent"
             onClick={() => useViewer.getState().setWeather(nextWeather.id)}
             title={i18n._({
               id: 'viewer.daylight.sky.cycleWeatherTip',
@@ -280,7 +284,7 @@ export function SkyControl({
             })}
             type="button"
           >
-            <WeatherIcon aria-hidden="true" className="h-[18px] w-[18px] text-muted-foreground" />
+            <WeatherIcon aria-hidden="true" className="size-4 text-muted-foreground" />
             {compact ? null : <span>{weatherName(i18n, sky.weather)}</span>}
           </button>
         </div>
@@ -346,7 +350,7 @@ function MiniSky({ sky }: { sky: ReturnType<typeof useSky> }) {
   return (
     <span
       aria-hidden="true"
-      className="relative h-8 w-8 shrink-0 overflow-hidden rounded-lg border border-black/10"
+      className="relative size-[22px] shrink-0 overflow-hidden rounded-full border border-black/10"
       style={{ background: `linear-gradient(${top}, ${horizon} 62%, #8a8a94 63%, #6c6c7a)` }}
     >
       <span

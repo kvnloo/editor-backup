@@ -125,6 +125,7 @@ export {
   stepCameraPoseInterpolation,
   withCameraPoseDistance,
 } from './lib/camera-pose'
+export { FLOATING_ACTIVE, FLOATING_SURFACE } from './lib/floating'
 export { authoredLevelName, localizedLevelName } from './lib/level-name'
 export { nodeDisplayLabel } from './lib/node-display-label'
 export {
