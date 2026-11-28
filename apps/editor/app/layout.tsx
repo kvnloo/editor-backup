@@ -1,7 +1,7 @@
 import { registerBundledLocales } from '@pascal-app/editor/locales'
 import { Agentation } from 'agentation'
 import { GeistPixelSquare } from 'geist/font/pixel'
-import { Barlow } from 'next/font/google'
+import { Barlow, Inter } from 'next/font/google'
 import localFont from 'next/font/local'
 import { headers } from 'next/headers'
 import { registerDevLocales } from '@/lib/dev-locales'
@@ -19,6 +19,12 @@ const geistSans = localFont({
 const geistMono = localFont({
   src: './fonts/GeistMonoVF.woff',
   variable: '--font-geist-mono',
+})
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-inter',
+  display: 'swap',
 })
 
 const barlow = Barlow({
@@ -39,7 +45,7 @@ export default async function RootLayout({
 
   return (
     <html
-      className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelSquare.variable} ${barlow.variable}`}
+      className={`${geistSans.variable} ${geistMono.variable} ${GeistPixelSquare.variable} ${barlow.variable} ${inter.variable}`}
       lang={locale}
     >
       <body className="font-sans">

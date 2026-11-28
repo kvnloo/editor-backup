@@ -5,7 +5,7 @@
  *   @import "@pascal-app/viewer/ui/theme.css";
  *   @source "../node_modules/@pascal-app/viewer/dist/ui";
  *
- * Defaults match Pascal's hosted viewer. Override any token after the import, e.g.
+ * Defaults match Pascal's hosted viewer (the Graphite design system). Override any token after the import, e.g.
  * `:root { --radius: 0.5rem; }`. The docks and menus scope themselves with a `dark`
  * class, so the `.dark` values are what they show.
  */
@@ -32,6 +32,18 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-canvas: var(--canvas);
+  --color-raised: var(--raised);
+  --color-control: var(--control);
+  --color-selected: var(--selected);
+  --color-dim-foreground: var(--dim-foreground);
+  --color-violet-accent: var(--accent-violet);
+  --color-violet-soft: var(--accent-violet-soft);
+  --color-violet-ink: var(--accent-violet-ink);
+  --shadow-card: var(--card-shadow);
+  --shadow-popover: var(--popover-shadow);
+  --shadow-control: var(--control-shadow);
+  --shadow-selected: var(--selected-shadow);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -49,23 +61,39 @@
 :root {
   --radius: 0.625rem;
   --background: #ffffff;
-  --foreground: #18181b;
+  --foreground: #0b0b0d;
   --card: #ffffff;
-  --card-foreground: #18181b;
+  --card-foreground: #0b0b0d;
   --popover: #ffffff;
-  --popover-foreground: #18181b;
-  --primary: #18181b;
+  --popover-foreground: #0b0b0d;
+  --primary: #0b0b0d;
   --primary-foreground: #fafafa;
   --secondary: #f4f4f5;
-  --secondary-foreground: #18181b;
+  --secondary-foreground: #27272a;
   --muted: #f4f4f5;
   --muted-foreground: #6b6b77;
-  --accent: #f4f4f5;
-  --accent-foreground: #18181b;
+  --accent: #ececef;
+  --accent-foreground: #0b0b0d;
   --destructive: oklch(0.577 0.245 27.325);
-  --border: #e4e4e7;
-  --input: #e4e4e7;
-  --ring: #9f9faa;
+  --border: rgba(0, 0, 0, 0.07);
+  --input: rgba(0, 0, 0, 0.1);
+  --ring: #8b5cf6;
+
+  /* Graphite surfaces: canvas under panels, raised tracks and rows, controls, the selected segment. */
+  --canvas: #f6f6f7;
+  --raised: #ececef;
+  --control: #ffffff;
+  --selected: #ffffff;
+  --dim-foreground: #9a9aa3;
+  --accent-violet: #8b5cf6;
+  --accent-violet-soft: rgba(139, 92, 246, 0.12);
+  --accent-violet-ink: #6d28d9;
+  --control-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.04);
+  --selected-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(0, 0, 0, 0.04);
+  --card-shadow:
+    0 0 0 1px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 20px -12px rgba(0, 0, 0, 0.14);
+  --popover-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08), 0 18px 40px -12px rgba(0, 0, 0, 0.22);
 
   --shadow-color: rgb(0 0 0 / 0.06);
   --shadow-elevation-0: 0 0 0 1px var(--shadow-color);
@@ -93,24 +121,37 @@
 
 /* Dark: raised surfaces catch light on their top edge and rim, over a grounding drop stack. */
 .dark {
-  --background: #0d0d0f;
+  --background: #111113;
   --foreground: #fafafa;
   --card: #18181b;
   --card-foreground: #fafafa;
-  --popover: #18181b;
+  --popover: #161618;
   --popover-foreground: #e4e4e7;
-  --primary: #e4e4e7;
-  --primary-foreground: #0d0d0f;
-  --secondary: #27272a;
+  --primary: #fafafa;
+  --primary-foreground: #09090b;
+  --secondary: #232327;
   --secondary-foreground: #e4e4e7;
-  --muted: #27272a;
+  --muted: #18181b;
   --muted-foreground: #9f9faa;
-  --accent: #27272a;
-  --accent-foreground: #e4e4e7;
+  --accent: #232327;
+  --accent-foreground: #fafafa;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: #27272a;
-  --input: #27272a;
-  --ring: #52525e;
+  --border: rgba(255, 255, 255, 0.07);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: #8b5cf6;
+
+  --canvas: #09090b;
+  --raised: #232327;
+  --control: #232327;
+  --selected: #33333a;
+  --dim-foreground: #686872;
+  --accent-violet: #8b5cf6;
+  --accent-violet-soft: rgba(139, 92, 246, 0.16);
+  --accent-violet-ink: #c4b5fd;
+  --control-shadow: none;
+  --selected-shadow: 0 2px 6px -2px #000, inset 0 1px 0 rgba(255, 255, 255, 0.07);
+  --card-shadow: 0 8px 20px -12px #000;
+  --popover-shadow: 0 0 0 1px rgba(255, 255, 255, 0.1), 0 18px 40px -12px rgba(0, 0, 0, 0.8);
 
   --shadow-color: rgba(0, 0, 0, 0.18);
   --dm-hi-base: rgba(255, 255, 255, 0.02);
